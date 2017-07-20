@@ -125,7 +125,6 @@
                 <configuration>
                   <executable>${wildfly.home}/bin/jboss-cli.sh</executable>
                   <arguments>
-                    <argument>--connect</argument>
                     <argument>--file=${project.build.scriptSourceDirectory}/jboss-config.cli</argument>
                   </arguments>
                 </configuration>

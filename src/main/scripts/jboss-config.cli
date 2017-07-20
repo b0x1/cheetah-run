@@ -1,3 +1,14 @@
+# cf https://docs.jboss.org/author/display/WFLY10/CLI+Recipes
+# cf https://docs.jboss.org/author/display/AS71/CLI+Recipes
+
+# Reload Wildfly server to prevent inconsistencies
+connect
+reload
+
+
+#############
+# Variables #
+#############
 
 set DATASTORE_JNDI_NAME=java:jboss/datasources/LocalDS
 set SECURITY_DOMAIN_NAME=custom-security
@@ -5,18 +16,12 @@ set SECURITY_DOMAIN_NAME=custom-security
 set SECURITY_DOMAIN=/subsystem=security/security-domain=$SECURITY_DOMAIN_NAME
 set DATASTORE=/subsystem=datasources/data-source=LocalDS
 
-# List of all system properties
-#/core-service=platform-mbean/type=runtime:read-attribute(name=system-properties)
-
-# Reload Wildfly server to prevent inconsistencies
-reload
 
 ##################
 # Add data store #
 ##################
 
 if (outcome != success) of $DATASTORE:read-resource()
-batch
     data-source add \
             --name=LocalDS \
             --driver-name=h2 \
@@ -26,36 +31,41 @@ batch
             --password=sa \
             --enabled=true
     reload
-run-batch
 end-if
 
 
 #######################
 # Add security domain #
 #######################
+# cf https://github.com/sgilda/wildfly-quickstart/blob/master/ejb-security-interceptors/configure-security-domain.cli
 
 # Remove security domain with same name
 #$SECURITY_DOMAIN:remove()
 #reload
 
 if (outcome != success) of $SECURITY_DOMAIN:read-resource()
-batch
     $SECURITY_DOMAIN:add(cache-type=default)
     $SECURITY_DOMAIN/authentication=classic:add
     $SECURITY_DOMAIN/authentication=classic/login-module=UserDBLogin:add( \
         code=org.jboss.security.auth.spi.DatabaseServerLoginModule, \
         flag=required, \
         module-options=[ \
-            ("dsJndiName"=>"$DATASTORE_JNDI_NAME"), \
             ("pricipalsQuery"=>"select passwd from Users username where username=?"), \
             ("rolesQuery"=>"select userRoles, 'Roles' from UserRoles where username=?"), \
             ("unauthenticatedIdentity"=>"guest") \
         ] \
     )
+
     $SECURITY_DOMAIN/authorization=classic:add
     $SECURITY_DOMAIN/authorization=classic/policy-module=FreeForAll:add(code=PermitAll,flag=required)
+
     reload
-run-batch
+
+    $SECURITY_DOMAIN/authentication=classic/login-module=UserDBLogin:map-put(\
+      name=module-options, key=dsJndiName, value=$DATASTORE_JNDI_NAME \
+    )
+
+    reload
 end-if
 
 

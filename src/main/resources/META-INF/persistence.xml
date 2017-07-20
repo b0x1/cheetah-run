@@ -4,17 +4,8 @@
              version="2.0">
     <persistence-unit name="hibernate">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <jta-data-source>java:jboss/datasources/LocalDS</jta-data-source>
         <properties>
-            <!-- Database connection settings -->
-            <property name="hibernate.archive.autodetection" value="class"/>
-            <!-- TODO configure database -->
-            <property name="javax.persistence.jdbc.url" value="" />
-            <property name="javax.persistence.jdbc.user" value="" />
-            <property name="javax.persistence.jdbc.password" value="" />
-
-            <!-- SQL dialect -->
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" />
-
             <!-- Drop and re-create the database schema on startup -->
             <property name="hibernate.hbm2ddl.auto" value="create" />
         </properties>
