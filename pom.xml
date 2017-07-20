@@ -18,6 +18,7 @@
     <!-- Plugin properties -->
     <maven-war-plugin.version>3.0.0</maven-war-plugin.version>
     <wildfly-maven-plugin.version>1.1.0.Final</wildfly-maven-plugin.version>
+    <exec-maven-plugin.version>1.6.0</exec-maven-plugin.version>
 
     <!-- Maven Wildfly Plugin configuration -->
     <wildfly.home>/home/bxia/Applications/wildfly-local/</wildfly.home>
@@ -62,6 +63,24 @@
       <artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
       <scope>provided</scope>
     </dependency>
+
+    <dependency>
+      <groupId>org.jboss.spec.javax.ejb</groupId>
+      <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jboss.spec.javax.servlet</groupId>
+      <artifactId>jboss-servlet-api_3.1_spec</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.picketbox</groupId>
+      <artifactId>picketbox</artifactId>
+      <version>5.0.2.Final</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -86,4 +105,36 @@
       </plugin>
     </plugins>
   </build>
+
+
+  <profiles>
+    <profile>
+      <id>wildfly</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>${exec-maven-plugin.version}</version>
+            <executions>
+              <execution>
+                <phase>package</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <executable>${wildfly.home}/bin/jboss-cli.sh</executable>
+                  <arguments>
+                    <argument>--connect</argument>
+                    <argument>--file=${project.build.scriptSourceDirectory}/jboss-config.cli</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
 </project>
