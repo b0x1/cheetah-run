@@ -4,10 +4,13 @@
              version="2.0">
     <persistence-unit name="hibernate">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <jta-data-source>java:jboss/datasources/LocalDS</jta-data-source>
+        <non-jta-data-source>java:jboss/datasources/LocalDS</non-jta-data-source>
+        <class>com.gepardec.event1024.entities.User</class>
+        <class>com.gepardec.event1024.entities.UserRole</class>
         <properties>
             <!-- Drop and re-create the database schema on startup -->
-            <property name="hibernate.hbm2ddl.auto" value="create" />
+            <!--<property name="hibernate.hbm2ddl.auto" value="create" />-->
+            <property name="org.hibernate.flushMode" value="COMMIT"/>
         </properties>
     </persistence-unit>
 </persistence>

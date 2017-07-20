@@ -21,12 +21,15 @@ set DATASTORE=/subsystem=datasources/data-source=LocalDS
 # Add data store #
 ##################
 
+#data-source remove --name=LocalDS
+#reload
+
 if (outcome != success) of $DATASTORE:read-resource()
     data-source add \
             --name=LocalDS \
             --driver-name=h2 \
             --jndi-name=$DATASTORE_JNDI_NAME \
-            --connection-url=jdbc:h2:~/Desktop/local.h2 \
+            --connection-url=jdbc:h2:~/Desktop/local \
             --user-name=sa \
             --password=sa \
             --enabled=true
@@ -39,7 +42,6 @@ end-if
 #######################
 # cf https://github.com/sgilda/wildfly-quickstart/blob/master/ejb-security-interceptors/configure-security-domain.cli
 
-# Remove security domain with same name
 #$SECURITY_DOMAIN:remove()
 #reload
 
@@ -50,7 +52,7 @@ if (outcome != success) of $SECURITY_DOMAIN:read-resource()
         code=org.jboss.security.auth.spi.DatabaseServerLoginModule, \
         flag=required, \
         module-options=[ \
-            ("pricipalsQuery"=>"select passwd from Users username where username=?"), \
+            ("principalsQuery"=>"select passwd from Users username where username=?"), \
             ("rolesQuery"=>"select userRoles, 'Roles' from UserRoles where username=?"), \
             ("unauthenticatedIdentity"=>"guest") \
         ] \
