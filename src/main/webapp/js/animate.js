@@ -1,15 +1,22 @@
-var CANVAS_WIDTH = window.innerWidth;
-var CANVAS_HEIGHT = 851;
-var CONSTANT_RUN = CANVAS_WIDTH / 3;
-var FINAL_SPURT;
+function getParameters() {
+  return {
+    canvas: {
+      width: window.innerWidth,
+      height: window.innerHeight < 851 ? window.innerHeight : 851
+    },
+    constant_run: window.innerWidth / 2
+  }
+}
 
+var PARAMETERS = getParameters();
+var FINAL_SPURT;
 
 var getImage = function(src) {
   var image = new Image();
   image.src = src;
-  image.onload = function() {
-    console.log("Image " + src + " loaded.");
-  };
+//  image.onload = function() {
+//    console.log("Image " + src + " loaded.");
+//  };
   return image;
 };
 
@@ -19,7 +26,6 @@ for (var i = 0; i < 8; i++) {
   cheetahImages[i] = getImage(imagePrefix + "cheetahRun0" + i +".png");
 }
 
-var cheetah = new RunningCheetah(cheetahImages);
 
 var balloonImages = [
   "cateringBalloon.png",
@@ -31,20 +37,40 @@ var balloonImages = [
 ];
 var balloons = [];
 for (var i = 0; i < balloonImages.length; i++) {
-  balloons[i] = new Balloon(getImage(imagePrefix + balloonImages[i]), 100, 100, CANVAS_WIDTH);
+  balloonImages[i] = getImage(imagePrefix + balloonImages[i]);
 }
 
+var bgImage = getImage(imagePrefix + "steppe_v2.png");
+
 var canvas;
+var cheetah;
+
 
 window.onload = function() {
-  canvas = new RotatingCanvas("cheetah-track", getImage(imagePrefix + "steppe_v2.png"), cheetah, balloons);
+  cheetah = new RunningCheetah(cheetahImages);
+  canvas = new RotatingCanvas("cheetah-track", bgImage, cheetah, balloons);
+  for (var i = 0; i < balloonImages.length; i++) {
+    balloons[i] = new Balloon(balloonImages[i], 100, 100, PARAMETERS.canvas.width);
+  }
   FINAL_SPURT = canvas.background.width - canvas.width;
+}
+
+window.onresize = function()  {
+  PARAMETERS = getParameters();
+  cheetah.resize();
+  canvas.resize();
+  for (var i = 0; i < balloons.length; i++) {
+    balloons[i].resize();
+  }
 }
 
 var stopGame = function() {
   window.onkeypress = null;
   clearInterval(canvas.animate);
   clearInterval(cheetah.animate); // Compatibility issue with Cheetah
+  for (var i = 0; i < balloonImages.length; i++) {
+    clearInterval(balloons[i]);
+  }
 }
 
 

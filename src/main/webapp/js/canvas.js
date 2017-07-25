@@ -1,15 +1,13 @@
 
 Canvas = function(canvasElement, bgImage, cheetah) {
   this.background = bgImage;
-  this.width = CANVAS_WIDTH;
-  this.height = CANVAS_HEIGHT;
   this.elem = document.getElementById(canvasElement);
-  this.elem.width = this.width;
-  this.elem.height = this.height;
+
   this.ctx = this.elem.getContext("2d");
   this.cheetah = cheetah;
 
   this.balloonIndex = 4;
+  this.resize();
 
   var self = this;
   window.focus();
@@ -18,6 +16,13 @@ Canvas = function(canvasElement, bgImage, cheetah) {
 }
 
 Canvas.prototype = {
+  resize: function() {
+    this.width = PARAMETERS.canvas.width;
+    this.height = PARAMETERS.canvas.height;
+    this.elem.width = this.width;
+    this.elem.height = this.height;
+  },
+
   textBubble: function(text) {
     this.ctx.font = "30pt Arial";
     this.ctx.fillStyle = "#f7f7f4";
@@ -29,12 +34,12 @@ Canvas.prototype = {
   draw: function() {
     this.ctx.clearRect(0, 0, this.width, this.height); // Clear Canvas
 
-    if (this.cheetah.distance < CONSTANT_RUN) {
+    if (this.cheetah.distance < PARAMETERS.constant_run) {
       this.ctx.drawImage(this.background, 0, 0);
     } else if (this.cheetah.distance + this.width < this.background.width) {
-      this.ctx.drawImage(this.background, this.cheetah.distance - CONSTANT_RUN, 0, this.width, this.height, 0, 0, this.width, this.height);
+      this.ctx.drawImage(this.background, this.cheetah.distance - PARAMETERS.constant_run, 0, this.width, this.height, 0, 0, this.width, this.height);
     } else {
-      this.ctx.drawImage(this.background, this.background.width - this.width - CONSTANT_RUN, 0, this.width, this.height, 0, 0, this.width, this.height)
+      this.ctx.drawImage(this.background, this.background.width - this.width - PARAMETERS.constant_run, 0, this.width, this.height, 0, 0, this.width, this.height)
     }
 
     this.textBubble(cheetah.posX + " " + cheetah.distance);
@@ -59,14 +64,16 @@ RotatingCanvas.prototype.draw = function() {
 
 
     var rightMargin = this.width - (this.background.width - this.imageX);
+    var rightMargin = rightMargin > 0 ? rightMargin : 0;
 
-    this.ctx.drawImage(this.background,
-                       this.imageX, 0, this.width, this.height, // image coordinates
-                       0, 0, this.width, this.height);  // canvas coordinates
-
+    if (this.width - rightMargin > 0) {
+      this.ctx.drawImage(this.background,
+                         this.imageX, 0, this.width - rightMargin, this.background.height, // image coordinates
+                         0, 0, this.width - rightMargin, this.height);  // canvas coordinates
+    }
     if (rightMargin > 0) {
       this.ctx.drawImage(this.background,
-              0, 0, rightMargin, this.height, // image coordinates
+              0, 0, rightMargin, this.background.height, // image coordinates
               this.width - rightMargin, 0, rightMargin, this.height);
     }
 
@@ -96,6 +103,6 @@ RotatingCanvas.prototype.draw = function() {
     this.ctx.drawImage(this.cheetah.image, this.cheetah.posX, this.cheetah.posY, this.cheetah.width, this.cheetah.height);
 
     // DEBUG BUBBLE
-//    this.textBubble(balloon1.image.src + " " + this.balloonIndex);
+//    this.textBubble(rightMargin);
 
 }

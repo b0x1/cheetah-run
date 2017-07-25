@@ -4,18 +4,30 @@ Cheetah = function(images) {
   this.imagePos = 0;
   this.image = this.images[this.imagePos];
   this.stepSize = 100;
-  this.height = 250;  // Cheetah size
-  this.width = this.image.width / this.image.height * this.height
   this.posX = 0;
-  this.posY = 960 - this.height - 120;
   this.distance = this.posX;
   this.lastkey;
 
+  this.resize();
   window.onkeypress = this.run.bind(this);
 
 }
 
 Cheetah.prototype = {
+  resize: function() {
+    if (PARAMETERS.canvas.height < PARAMETERS.canvas.width) {
+      this.height = PARAMETERS.canvas.height * 0.3;;
+      this.width = this.image.width / this.image.height * this.height;
+    } else {
+      this.width = this.image.width < PARAMETERS.canvas.width ? this.image.width : PARAMETERS.canvas.width;
+      this.width -= 30;
+      this.height = this.image.height / this.image.width * this.width;
+    }
+
+
+    this.posY = PARAMETERS.canvas.height - this.height - 10;
+  },
+
   rotateImage: function() {
     this.imagePos += 1;
     this.imagePos %= 17;
@@ -26,12 +38,11 @@ Cheetah.prototype = {
     } else {
       this.image = this.images[0];
     }
-    console.log(this.image.src);
   },
 
   run : function(evt) {
     // Move Cheetah on screen
-    if (this.posX + this.stepSize <= CONSTANT_RUN || this.distance >= FINAL_SPURT) {
+    if (this.posX + this.stepSize <= PARAMETERS.constant_run || this.distance >= FINAL_SPURT) {
       this.posX += this.stepSize;
     }
 
@@ -45,10 +56,14 @@ Cheetah.prototype = {
 
 RunningCheetah = function(images) {
   Cheetah.call(this, images);
-  this.posX = CONSTANT_RUN;
+  this.posX = PARAMETERS.constant_run - this.width / 2;
 }
 
 RunningCheetah.prototype = Object.create(Cheetah.prototype);
 RunningCheetah.prototype.run = function() {
   this.rotateImage();
+}
+RunningCheetah.prototype.resize = function() {
+  Cheetah.prototype.resize.call(this);
+  this.posX = PARAMETERS.constant_run - this.width / 2;
 }
