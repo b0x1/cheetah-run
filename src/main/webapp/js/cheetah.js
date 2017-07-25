@@ -14,6 +14,7 @@ Cheetah = function(images) {
 }
 
 Cheetah.prototype = {
+  constructor: Cheetah,
   resize: function() {
     if (PARAMETERS.canvas.height < PARAMETERS.canvas.width) {
       this.height = PARAMETERS.canvas.height * 0.3;;
@@ -60,6 +61,7 @@ RunningCheetah = function(images) {
 }
 
 RunningCheetah.prototype = Object.create(Cheetah.prototype);
+RunningCheetah.prototype.constructor = RunningCheetah;
 RunningCheetah.prototype.run = function() {
   this.rotateImage();
 }

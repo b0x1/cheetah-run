@@ -109,7 +109,7 @@
 
   <profiles>
     <profile>
-      <id>wildfly</id>
+      <id>openshift</id>
       <build>
         <plugins>
           <plugin>

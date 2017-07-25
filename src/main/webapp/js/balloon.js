@@ -8,6 +8,7 @@ Balloon = function(image, baseLine, amplitude) {
 }
 
 Balloon.prototype = {
+  constructor: Balloon,
   resize: function() {
     if (PARAMETERS.canvas.height < PARAMETERS.canvas.width) {
       this.height = PARAMETERS.canvas.height * 0.3;;

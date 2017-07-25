@@ -16,6 +16,7 @@ Canvas = function(canvasElement, bgImage, cheetah) {
 }
 
 Canvas.prototype = {
+  constructor: Canvas,
   resize: function() {
     this.width = PARAMETERS.canvas.width;
     this.height = PARAMETERS.canvas.height;
@@ -56,6 +57,7 @@ RotatingCanvas = function(canvasElement, bgImage, cheetah, balloons) {
 }
 
 RotatingCanvas.prototype = Object.create(Canvas.prototype);
+RotatingCanvas.prototype.constructor = RotatingCanvas;
 RotatingCanvas.prototype.draw = function() {
     var balloon1 = this.balloons[this.balloonIndex];
     var balloon2 = this.balloonIndex < this.balloons.length - 1 ? this.balloons[this.balloonIndex + 1] : this.balloons[0];
