@@ -80,11 +80,11 @@ RotatingCanvas.prototype.draw = function() {
     this.imageX = this.imageX < this.background.width ? this.imageX + this.stepSize : 0;
 
     if (balloon1.animate === undefined) {
-      balloon1.animate = setInterval(balloon1.fly.bind(balloon1), 50);
+      balloon1.animate = setInterval(balloon1.fly.bind(balloon1), 25);
     }
     if (balloon1.posX < this.width / 2) {
       if (balloon2.animate === undefined) {
-        balloon2.animate = setInterval(balloon2.fly.bind(balloon2), 50);
+        balloon2.animate = setInterval(balloon2.fly.bind(balloon2), 25);
       }
       this.ctx.drawImage(balloon2.image, balloon2.posX, balloon2.posY, balloon2.width, balloon2.height);
     }
