@@ -3,18 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <title>Gepardec Gewinnspiel</title>
-  <link rel="stylesheet" href="css/styles.css" type="text/css">
-  <script type="text/javascript" src="js/canvas.js"></script>
-  <script type="text/javascript" src="js/cheetah.js"></script>
-  <script type="text/javascript" src="js/balloon.js"></script>
+  <!--<link rel="stylesheet" href="css/styles.css" type="text/css">-->
+
 </head>
 
 <body>
-  <p>Please any key to move the cheetah.</p>
-  <canvas id="cheetah-track" width="1600" height="960">
-    Glory to HTML5 Canvas!
-  </canvas>
-  <script type="text/javascript" src="js/animate.js"></script>
+  <section>
+    <style>
+      canvas {
+        margin: auto;
+        display: block;
+        width: 100%;
+      }
+    </style>
+    <canvas id="cheetah-track">
+      Glory to HTML5 Canvas!
+    </canvas>
+    <script type="text/javascript">
+    var imagePrefix = "images/";
+    </script>
+    <script type="text/javascript" src="js/canvas.js"></script>
+    <script type="text/javascript" src="js/cheetah.js"></script>
+    <script type="text/javascript" src="js/balloon.js"></script>
+    <script type="text/javascript" src="js/animate.js"></script>
+  </section>
 </body>
 
 </html>

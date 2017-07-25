@@ -1,9 +1,8 @@
 
-Cheetah = function(imageSources) {
-  this.image = new Image();
+Cheetah = function(images) {
+  this.images = images;
   this.imagePos = 0;
-  this.image.src = imageSources[this.imagePos];
-  this.imageSources = imageSources;
+  this.image = this.images[this.imagePos];
   this.stepSize = 100;
   this.height = 250;  // Cheetah size
   this.width = this.image.width / this.image.height * this.height
@@ -13,17 +12,21 @@ Cheetah = function(imageSources) {
   this.lastkey;
 
   window.onkeypress = this.run.bind(this);
-  this.animate = setInterval(this.run.bind(this), 80);
 
 }
 
 Cheetah.prototype = {
   rotateImage: function() {
-    // Rotate images
     this.imagePos += 1;
-    this.imagePos %= this.imageSources.length;
-    this.image.src = this.imageSources[this.imagePos];
-
+    this.imagePos %= 17;
+    if (this.imagePos < 7) {
+      this.image = this.images[this.imagePos];
+    } else if (this.imagePos < 14) {
+      this.image = this.images[14 - this.imagePos];
+    } else {
+      this.image = this.images[0];
+    }
+    console.log(this.image.src);
   },
 
   run : function(evt) {
@@ -40,9 +43,9 @@ Cheetah.prototype = {
 }
 
 
-RunningCheetah = function(imageSources) {
-  Cheetah.call(this, imageSources);
-  this.posX = 400;
+RunningCheetah = function(images) {
+  Cheetah.call(this, images);
+  this.posX = CONSTANT_RUN;
 }
 
 RunningCheetah.prototype = Object.create(Cheetah.prototype);

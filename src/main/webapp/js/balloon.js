@@ -1,6 +1,5 @@
-Balloon = function(imageSource, baseLine, amplitude, startX) {
-  this.image = new Image();
-  this.image.src = imageSource;
+Balloon = function(image, baseLine, amplitude, startX) {
+  this.image = image;
   this.stepSize = 12;
   this.baseLine = baseLine;
   this.amplitude = amplitude;

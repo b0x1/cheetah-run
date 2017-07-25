@@ -1,23 +1,27 @@
+var CANVAS_WIDTH = window.innerWidth;
+var CANVAS_HEIGHT = 851;
+var CONSTANT_RUN = CANVAS_WIDTH / 3;
+var FINAL_SPURT;
 
-cheetah = new RunningCheetah(
-      ["images/cheetahRun00.png",
-       "images/cheetahRun00.png",
-       "images/cheetahRun00.png",
-       "images/cheetahRun01.png",
-       "images/cheetahRun02.png",
-       "images/cheetahRun03.png",
-       "images/cheetahRun04.png",
-       "images/cheetahRun05.png",
-       "images/cheetahRun06.png",
-       "images/cheetahRun07.png",
-       "images/cheetahRun06.png",
-       "images/cheetahRun05.png",
-       "images/cheetahRun04.png",
-       "images/cheetahRun03.png",
-       "images/cheetahRun02.png",
-       "images/cheetahRun01.png"]);
 
-balloonImages = [
+var getImage = function(src) {
+  var image = new Image();
+  image.src = src;
+  image.onload = function() {
+    console.log("Image " + src + " loaded.");
+  };
+  return image;
+};
+
+
+var cheetahImages = [];
+for (var i = 0; i < 8; i++) {
+  cheetahImages[i] = getImage(imagePrefix + "cheetahRun0" + i +".png");
+}
+
+var cheetah = new RunningCheetah(cheetahImages);
+
+var balloonImages = [
   "cateringBalloon.png",
   "demoBalloon.png",
   "iPadBalloon.png",
@@ -25,14 +29,17 @@ balloonImages = [
   "skystageBalloon.png",
   "speakerBalloon.png"
 ];
-
-balloons = [];
-for (i = 0; i < balloonImages.length; i++) {
-  balloons[i] = new Balloon("images/" + balloonImages[i], 100, 100, 1600);
+var balloons = [];
+for (var i = 0; i < balloonImages.length; i++) {
+  balloons[i] = new Balloon(getImage(imagePrefix + balloonImages[i]), 100, 100, CANVAS_WIDTH);
 }
 
-canvas = new RotatingCanvas("cheetah-track", "images/steppe_v2.png", cheetah, balloons);
+var canvas;
 
+window.onload = function() {
+  canvas = new RotatingCanvas("cheetah-track", getImage(imagePrefix + "steppe_v2.png"), cheetah, balloons);
+  FINAL_SPURT = canvas.background.width - canvas.width;
+}
 
 var stopGame = function() {
   window.onkeypress = null;
@@ -40,10 +47,5 @@ var stopGame = function() {
   clearInterval(cheetah.animate); // Compatibility issue with Cheetah
 }
 
-
-var CONSTANT_RUN = 400;
-var FINAL_SPURT = canvas.background.width - canvas.width;
-var CANVAS_WIDTH = canvas.width;
-var TOTAL_DISTANCE = canvas.background.width;
 
 

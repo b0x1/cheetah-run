@@ -1,17 +1,20 @@
 
 Canvas = function(canvasElement, bgImage, cheetah) {
-  this.background = new Image();
-  this.background.src = bgImage;
+  this.background = bgImage;
+  this.width = CANVAS_WIDTH;
+  this.height = CANVAS_HEIGHT;
   this.elem = document.getElementById(canvasElement);
+  this.elem.width = this.width;
+  this.elem.height = this.height;
   this.ctx = this.elem.getContext("2d");
-  this.width = this.elem.width;
-  this.height = this.elem.height;
   this.cheetah = cheetah;
 
   this.balloonIndex = 4;
-  window.focus();
-  this.animate = setInterval(this.draw.bind(this), 50);
 
+  var self = this;
+  window.focus();
+  self.animate = setInterval(self.draw.bind(self), 50);
+  cheetah.animate = setInterval(cheetah.run.bind(cheetah), 80);
 }
 
 Canvas.prototype = {
