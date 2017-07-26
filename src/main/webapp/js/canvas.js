@@ -62,24 +62,10 @@ RotatingCanvas.prototype.draw = function() {
     var balloon1 = this.balloons[this.balloonIndex];
     var balloon2 = this.balloonIndex < this.balloons.length - 1 ? this.balloons[this.balloonIndex + 1] : this.balloons[0];
 
+    this.imageX -= this.stepSize;
+    this.elem.style.backgroundPosition = this.imageX + 'px 0';
+
     this.ctx.clearRect(0, 0, this.width, this.height); // Clear Canvas
-
-
-    var rightMargin = this.width - (this.background.width - this.imageX);
-    var rightMargin = rightMargin > 0 ? rightMargin : 0;
-
-    if (this.width - rightMargin > 0) {
-      this.ctx.drawImage(this.background,
-                         this.imageX, 0, this.width - rightMargin, this.background.height, // image coordinates
-                         0, 0, this.width - rightMargin, this.height);  // canvas coordinates
-    }
-    if (rightMargin > 0) {
-      this.ctx.drawImage(this.background,
-              0, 0, rightMargin, this.background.height, // image coordinates
-              this.width - rightMargin, 0, rightMargin, this.height);
-    }
-
-    this.imageX = this.imageX < this.background.width ? this.imageX + this.stepSize : 0;
 
     if (balloon1.animate === undefined) {
       balloon1.animate = setInterval(balloon1.fly.bind(balloon1), 25);
@@ -105,6 +91,6 @@ RotatingCanvas.prototype.draw = function() {
     this.ctx.drawImage(this.cheetah.image, this.cheetah.posX, this.cheetah.posY, this.cheetah.width, this.cheetah.height);
 
     // DEBUG BUBBLE
-//    this.textBubble(rightMargin);
+//    this.textBubble(this.imageX + " : " + this.width + " : " + this.background.width);
 
 }

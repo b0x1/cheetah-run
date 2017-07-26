@@ -11,10 +11,10 @@ Balloon.prototype = {
   constructor: Balloon,
   resize: function() {
     if (PARAMETERS.canvas.height < PARAMETERS.canvas.width) {
-      this.height = PARAMETERS.canvas.height * 0.3;;
+      this.height = PARAMETERS.canvas.height * 0.4;;
       this.width = this.image.width / this.image.height * this.height;
     } else {
-      this.width = PARAMETERS.canvas.width * 0.3;
+      this.width = PARAMETERS.canvas.width * 0.4;
       this.height = this.image.height / this.image.width * this.width;
     }
     this.posX = PARAMETERS.canvas.width;
