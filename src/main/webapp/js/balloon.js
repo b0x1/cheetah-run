@@ -1,13 +1,16 @@
 Balloon = function(image, baseLine, amplitude) {
   this.image = image;
   this.resize();
-
+  this.canvasWidth = PARAMETERS.canvas.width;
   this.posY = this.fly();
 }
 
 Balloon.prototype = {
   constructor: Balloon,
   resize: function() {
+    this.posX = this.posX * PARAMETERS.canvas.width / this.canvasWidth;
+    this.canvasWidth = PARAMETERS.canvas.width;
+
     if (PARAMETERS.canvas.height < PARAMETERS.canvas.width) {
       this.height = PARAMETERS.canvas.height * 0.4;;
       this.width = this.image.width / this.image.height * this.height;
@@ -19,7 +22,6 @@ Balloon.prototype = {
     this.baseLine = PARAMETERS.canvas.height / 3 - this.height / 2;
     this.amplitude = this.baseLine;
 
-    this.posX = PARAMETERS.canvas.width;
     this.stepSize = PARAMETERS.canvas.width / 600;
   },
 
