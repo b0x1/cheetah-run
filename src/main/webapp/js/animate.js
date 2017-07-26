@@ -22,8 +22,8 @@ var getImage = function(src) {
 
 
 var cheetahImages = [];
-for (var i = 0; i < 8; i++) {
-  cheetahImages[i] = getImage(imagePrefix + "cheetahRun0" + i +".png");
+for (var i = 0; i < 17; i++) {
+  cheetahImages[i] = getImage(imagePrefix + "cheetahRun" + i +".png");
 }
 
 
@@ -50,7 +50,7 @@ window.onload = function() {
   cheetah = new RunningCheetah(cheetahImages);
   canvas = new RotatingCanvas("cheetah-track", bgImage, cheetah, balloons);
   for (var i = 0; i < balloonImages.length; i++) {
-    balloons[i] = new Balloon(balloonImages[i], 100, 100, PARAMETERS.canvas.width);
+    balloons[i] = new Balloon(balloonImages[i]);
   }
   FINAL_SPURT = canvas.background.width - canvas.width;
 }

@@ -31,14 +31,16 @@ Cheetah.prototype = {
 
   rotateImage: function() {
     this.imagePos += 1;
-    this.imagePos %= 17;
-    if (this.imagePos < 7) {
-      this.image = this.images[this.imagePos];
-    } else if (this.imagePos < 14) {
-      this.image = this.images[14 - this.imagePos];
-    } else {
-      this.image = this.images[0];
-    }
+    this.imagePos %= this.images.length;
+    this.image = this.images[this.imagePos];
+//    if (this.imagePos < this.images.length) {
+//      this.image = this.images[this.imagePos];
+//    } else if (this.imagePos < this.images.length * 2 - 2) {
+//      this.image = this.images[this.images.length * 2 - 2 - this.imagePos];
+//    } else {
+//      this.image = this.images[0];
+//    }
+//    console.log(this.imagePos + " " + this.image.src);
   },
 
   run : function(evt) {

@@ -12,7 +12,7 @@ Canvas = function(canvasElement, bgImage, cheetah) {
   var self = this;
   window.focus();
   self.animate = setInterval(self.draw.bind(self), 50);
-  cheetah.animate = setInterval(cheetah.run.bind(cheetah), 80);
+  cheetah.animate = setInterval(cheetah.run.bind(cheetah), 60);
 }
 
 Canvas.prototype = {
