@@ -19,9 +19,6 @@
     <maven-war-plugin.version>3.0.0</maven-war-plugin.version>
     <wildfly-maven-plugin.version>1.1.0.Final</wildfly-maven-plugin.version>
     <exec-maven-plugin.version>1.6.0</exec-maven-plugin.version>
-
-    <!-- Maven Wildfly Plugin configuration -->
-    <wildfly.home>${env.HOME}/Applications/wildfly-local/</wildfly.home>
   </properties>
 
   <dependencyManagement>
@@ -100,7 +97,7 @@
         <artifactId>wildfly-maven-plugin</artifactId>
         <version>${wildfly-maven-plugin.version}</version>
         <configuration>
-          <jboss-home>${wildfly.home}</jboss-home>
+          <jboss-home>${env.JBOSS_HOME}</jboss-home>
         </configuration>
       </plugin>
     </plugins>
@@ -123,7 +120,7 @@
                   <goal>exec</goal>
                 </goals>
                 <configuration>
-                  <executable>${wildfly.home}/bin/jboss-cli.sh</executable>
+                  <executable>${env.JBOSS_HOME}/bin/jboss-cli.sh</executable>
                   <arguments>
                     <argument>--file=${project.build.scriptSourceDirectory}/jboss-config.cli</argument>
                   </arguments>
