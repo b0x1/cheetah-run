@@ -2,7 +2,7 @@ function getParameters() {
   return {
     canvas: {
       width: window.innerWidth,
-      height: window.innerHeight < 851 ? window.innerHeight : 851
+      height: window.innerHeight < 851 ? window.innerHeight * 0.7 : 851
     },
     constant_run: window.innerWidth / 2
   }
