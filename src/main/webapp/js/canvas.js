@@ -1,18 +1,23 @@
 
 Canvas = function(canvasElement, bgImage, cheetah) {
-  this.background = bgImage;
   this.elem = document.getElementById(canvasElement);
 
   this.ctx = this.elem.getContext("2d");
   this.cheetah = cheetah;
 
-  this.balloonIndex = 4;
-  this.resize();
+  var style = this.elem.style;
+  this.bgImage = bgImage;
+  style.margin = "auto";
+  style.display = "block";
+  style.width = "100%";
+  style.backgroundImage = "url('" + bgImage.src + "')";
+  style.backgroundRepeat = "repeat-x";
+  style.backgroundSize = "auto 100%";
 
-  var self = this;
-  window.focus();
-  self.animate = setInterval(self.draw.bind(self), 50);
-  cheetah.animate = setInterval(cheetah.run.bind(cheetah), 60);
+  this.imageX = 0;
+  this.stepSize = 40;
+
+  this.resize();
 }
 
 Canvas.prototype = {
@@ -35,15 +40,14 @@ Canvas.prototype = {
   draw: function() {
     this.ctx.clearRect(0, 0, this.width, this.height); // Clear Canvas
 
-    if (this.cheetah.distance < PARAMETERS.constant_run) {
-      this.ctx.drawImage(this.background, 0, 0);
-    } else if (this.cheetah.distance + this.width < this.background.width) {
-      this.ctx.drawImage(this.background, this.cheetah.distance - PARAMETERS.constant_run, 0, this.width, this.height, 0, 0, this.width, this.height);
-    } else {
-      this.ctx.drawImage(this.background, this.background.width - this.width - PARAMETERS.constant_run, 0, this.width, this.height, 0, 0, this.width, this.height)
+    if (this.cheetah.posX < PARAMETERS.constant_run) {
+      this.elem.style.backgroundPosition = "0 0";
+    } else if (cheetah.steps <= PARAMETERS.maximum_steps - (PARAMETERS.canvas.width - PARAMETERS.constant_run - cheetah.width) / cheetah.stepSize) {
+      this.imageX -= this.stepSize;
+      this.elem.style.backgroundPosition = this.imageX + 'px 0';
     }
 
-    this.textBubble(cheetah.posX + " " + cheetah.distance);
+    this.textBubble(cheetah.posX + " " + cheetah.steps);
     this.ctx.drawImage(this.cheetah.image, this.cheetah.posX, this.cheetah.posY, this.cheetah.width, this.cheetah.height);
   }
 }
@@ -52,7 +56,7 @@ Canvas.prototype = {
 RotatingCanvas = function(canvasElement, bgImage, cheetah, balloons) {
   Canvas.call(this, canvasElement, bgImage, cheetah);
   this.balloons = balloons;
-  this.imageX = 0;
+  this.balloonIndex = 0;
   this.stepSize = 10;
 }
 

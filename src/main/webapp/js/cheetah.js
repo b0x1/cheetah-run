@@ -5,12 +5,9 @@ Cheetah = function(images) {
   this.image = this.images[this.imagePos];
   this.stepSize = 100;
   this.posX = 0;
-  this.distance = this.posX;
-  this.lastkey;
+  this.steps = 0;
 
   this.resize();
-  window.onkeypress = this.run.bind(this);
-
 }
 
 Cheetah.prototype = {
@@ -29,7 +26,7 @@ Cheetah.prototype = {
     this.posY = PARAMETERS.canvas.height - this.height - 10;
   },
 
-  rotateImage: function() {
+  rotateImages: function() {
     this.imagePos += 1;
     this.imagePos %= this.images.length + 2;
     if (this.imagePos < this.images.length) {
@@ -40,16 +37,18 @@ Cheetah.prototype = {
 //    console.log(this.imagePos + " " + this.image.src);
   },
 
-  run : function(evt) {
+  run : function(numberOfSteps) {
     // Move Cheetah on screen
-    if (this.posX + this.stepSize <= PARAMETERS.constant_run || this.distance >= FINAL_SPURT) {
+    if ((this.steps * this.stepSize < PARAMETERS.constant_run ||
+         this.steps >= PARAMETERS.maximum_steps - (PARAMETERS.canvas.width - PARAMETERS.constant_run - this.width) / this.stepSize) &&
+         this.steps < PARAMETERS.maximum_steps) {
       this.posX += this.stepSize;
     }
 
-    // Distance Cheetah has run.
-    this.distance += this.stepSize;
-    this.lastkey = evt.key;
-    this.rotateImage();
+    if (this.steps < PARAMETERS.maximum_steps) {
+      this.steps += 1;
+      this.rotateImages();
+    }
   }
 }
 
@@ -62,7 +61,7 @@ RunningCheetah = function(images) {
 RunningCheetah.prototype = Object.create(Cheetah.prototype);
 RunningCheetah.prototype.constructor = RunningCheetah;
 RunningCheetah.prototype.run = function() {
-  this.rotateImage();
+  this.rotateImages();
 }
 RunningCheetah.prototype.resize = function() {
   Cheetah.prototype.resize.call(this);

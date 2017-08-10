@@ -8,8 +8,7 @@ function getParameters() {
   }
 }
 
-var PARAMETERS = getParameters();
-var FINAL_SPURT;
+var PARAMETERS;
 
 var getImage = function(src) {
   var image = new Image();
@@ -40,19 +39,19 @@ for (var i = 0; i < balloonImages.length; i++) {
   balloonImages[i] = getImage(imagePrefix + balloonImages[i]);
 }
 
-var bgImage = getImage(imagePrefix + "steppe_v2.png");
-
 var canvas;
 var cheetah;
 
-
 window.onload = function() {
+  PARAMETERS =  getParameters();
   cheetah = new RunningCheetah(cheetahImages);
-  canvas = new RotatingCanvas("cheetah-track", bgImage, cheetah, balloons);
+  canvas = new RotatingCanvas("cheetah-track", getImage(imagePrefix + "steppe.png"), cheetah, balloons);
   for (var i = 0; i < balloonImages.length; i++) {
     balloons[i] = new Balloon(balloonImages[i]);
   }
-  FINAL_SPURT = canvas.background.width - canvas.width;
+
+  canvas.animate = setInterval(canvas.draw.bind(canvas), 50);
+  cheetah.animate = setInterval(cheetah.run.bind(cheetah), 60);
 }
 
 window.onresize = function()  {
@@ -65,7 +64,6 @@ window.onresize = function()  {
 }
 
 var stopGame = function() {
-  window.onkeypress = null;
   clearInterval(canvas.animate);
   clearInterval(cheetah.animate); // Compatibility issue with Cheetah
   for (var i = 0; i < balloonImages.length; i++) {
