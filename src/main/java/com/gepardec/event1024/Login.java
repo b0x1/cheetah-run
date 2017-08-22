@@ -10,8 +10,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.transaction.UserTransaction;
+import javax.transaction.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @WebServlet(name="Login", urlPatterns={"", "/login"})
 public class Login extends HttpServlet {
@@ -24,27 +25,24 @@ public class Login extends HttpServlet {
 
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     if (request.getUserPrincipal() == null) {
-      String userName = request.getParameter("name");
-      String firmaName = request.getParameter("firma");
-      User user = new User(userName, firmaName);
+      PrintWriter out = response.getWriter();
       try {
-        userTransaction.begin();
-        em.persist(user);
-        userTransaction.commit();
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-
-      try {
-        request.login(userName, firmaName);
-        response.sendRedirect("/game.html");
+        User user = loginUser(request.getParameter("name"), request.getParameter("firma"));
+        request.login(user.getUsername(), user.getPassword());
+        response.sendRedirect("/ui.html");
       } catch(ServletException ex) {
         System.out.println("Login Failed with a ServletException.." + ex.getMessage());
         response.sendRedirect("/login");
+      } catch (HeuristicMixedException | HeuristicRollbackException | RollbackException e) {
+        response.setStatus(500);
+        out.println("Cannot commit transaction.");
+      } catch ( NotSupportedException | SystemException e) {
+        response.setStatus(500);
+        out.println("Cannot begin transaction");
       }
 
     } else {
-      response.sendRedirect("/game.html");
+      response.sendRedirect("/ui.html");
     }
   }
 
@@ -52,7 +50,17 @@ public class Login extends HttpServlet {
     if (request.getUserPrincipal() == null) {
       request.getRequestDispatcher("/login.html").forward(request, response);
     } else {
-      response.sendRedirect("/game.html");
+      response.sendRedirect("/ui.html");
     }
+  }
+
+  private User loginUser(String userName, String firmaName) throws NotSupportedException, SystemException, HeuristicMixedException, HeuristicRollbackException, RollbackException{
+    User user = new User(userName, firmaName);
+
+    userTransaction.begin();
+    em.persist(user);
+    userTransaction.commit();
+
+    return user;
   }
 }

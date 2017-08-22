@@ -18,7 +18,8 @@ public class RestResponses {
     if (httpServletRequest.getUserPrincipal() == null) {
       return "{ \"error\": \"You are not logged in.\" }";
     } else {
-      return "{ \"User\": \"" + httpServletRequest.getUserPrincipal().getName() + "\"}";
+      return "{ \"userName\": \"" + httpServletRequest.getUserPrincipal().getName() + "\"}";
+
     }
   }
 }
