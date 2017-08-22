@@ -32,7 +32,6 @@ public class User {
   }
 
   public List<UserInteraction> getUserInteractions() {
-    System.out.println(userInteractions);
     return userInteractions;
   }
 

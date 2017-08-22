@@ -29,8 +29,7 @@ public class Login extends HttpServlet {
     if (request.getUserPrincipal() == null) {
       PrintWriter out = response.getWriter();
       try {
-        User user = loginUser(request.getParameter("name"), request.getParameter("firma"), request.getRemoteAddr());
-        request.login(user.getUsername(), user.getPassword());
+        User user = loginUser(request);
 
         response.sendRedirect("/ui.html");
       } catch(ServletException ex) {
@@ -48,15 +47,27 @@ public class Login extends HttpServlet {
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     if (request.getUserPrincipal() == null) {
-      request.getRequestDispatcher("/login.html").forward(request, response);
+//      request.getRequestDispatcher("/login.html").forward(request, response);
+      // Test Code
+      User user = em.find(User.class, "Klemens");
+      request.login(user.getUsername(), user.getPassword());
+      response.sendRedirect("/ui.html");
+      // End test code
     } else {
       response.sendRedirect("/ui.html");
     }
   }
 
-  private User loginUser(String userName, String firmaName, String address) throws NotSupportedException, SystemException, HeuristicMixedException, HeuristicRollbackException, RollbackException{
+  private User loginUser(HttpServletRequest request) throws NotSupportedException, SystemException,
+      HeuristicMixedException, HeuristicRollbackException, RollbackException, ServletException{
+
+    String userName = request.getParameter("name").trim();
+    String firmaName = request.getParameter("firma").trim();
+    String address = request.getRemoteAddr();
+
     User user = em.find(User.class, userName);
     UserInteraction ui;
+
     if (user == null) {
       user = new User(userName, firmaName);
       userTransaction.begin();
@@ -72,6 +83,8 @@ public class Login extends HttpServlet {
     userTransaction.begin();
     em.persist(ui);
     userTransaction.commit();
+
+    request.login(user.getUsername(), user.getPassword());
 
     return user;
   }
