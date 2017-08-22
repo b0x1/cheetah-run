@@ -1,8 +1,9 @@
 package com.gepardec.event1024.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "Users")
 public class User {
@@ -12,9 +13,10 @@ public class User {
   @Column(name="passwd")
   private String password;
 
-  public User() {
+  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
+  private List<UserInteraction> userInteractions;
 
-  }
+  public User() {}
 
   public User(String username, String password) {
     this.username = username;
@@ -29,11 +31,19 @@ public class User {
     return password;
   }
 
-  public void setUsername(String username) {
-    this.username = username;
+  public List<UserInteraction> getUserInteractions() {
+    System.out.println(userInteractions);
+    return userInteractions;
   }
 
-  public void setPassword(String password) {
-    this.password = password;
+  public int getNumberOfClicks() {
+    int clicks = 0;
+    for (UserInteraction ui : userInteractions) {
+      if (ui.getType().equals(UserInteraction.CLICK)) {
+        clicks += 1;
+      }
+    }
+
+    return clicks;
   }
 }

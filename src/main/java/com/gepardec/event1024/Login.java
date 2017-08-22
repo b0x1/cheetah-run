@@ -1,6 +1,7 @@
 package com.gepardec.event1024;
 
 import com.gepardec.event1024.entities.User;
+import com.gepardec.event1024.entities.UserInteraction;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.transaction.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Calendar;
 
 @WebServlet(name="Login", urlPatterns={"", "/login"})
 public class Login extends HttpServlet {
@@ -27,18 +29,16 @@ public class Login extends HttpServlet {
     if (request.getUserPrincipal() == null) {
       PrintWriter out = response.getWriter();
       try {
-        User user = loginUser(request.getParameter("name"), request.getParameter("firma"));
+        User user = loginUser(request.getParameter("name"), request.getParameter("firma"), request.getRemoteAddr());
         request.login(user.getUsername(), user.getPassword());
+
         response.sendRedirect("/ui.html");
       } catch(ServletException ex) {
         System.out.println("Login Failed with a ServletException.." + ex.getMessage());
         response.sendRedirect("/login");
-      } catch (HeuristicMixedException | HeuristicRollbackException | RollbackException e) {
+      } catch (HeuristicMixedException | HeuristicRollbackException | RollbackException | NotSupportedException | SystemException e) {
         response.setStatus(500);
-        out.println("Cannot commit transaction.");
-      } catch ( NotSupportedException | SystemException e) {
-        response.setStatus(500);
-        out.println("Cannot begin transaction");
+        out.println(e.getMessage());
       }
 
     } else {
@@ -54,11 +54,23 @@ public class Login extends HttpServlet {
     }
   }
 
-  private User loginUser(String userName, String firmaName) throws NotSupportedException, SystemException, HeuristicMixedException, HeuristicRollbackException, RollbackException{
-    User user = new User(userName, firmaName);
+  private User loginUser(String userName, String firmaName, String address) throws NotSupportedException, SystemException, HeuristicMixedException, HeuristicRollbackException, RollbackException{
+    User user = em.find(User.class, userName);
+    UserInteraction ui;
+    if (user == null) {
+      user = new User(userName, firmaName);
+      userTransaction.begin();
+      em.persist(user);
+      userTransaction.commit();
+      ui = new UserInteraction(user, Calendar.getInstance().getTime(), UserInteraction.SIGNON, address);
+    } else if (user.getPassword().equals(firmaName)) {
+      ui = new UserInteraction(user, Calendar.getInstance().getTime(), UserInteraction.LOGIN, address);
+    } else {
+      throw new SystemException("User does not match company name.");
+    }
 
     userTransaction.begin();
-    em.persist(user);
+    em.persist(ui);
     userTransaction.commit();
 
     return user;
