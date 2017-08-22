@@ -2,4 +2,7 @@
 <jboss-web>
     <context-root>/</context-root>
     <security-domain>java:/jaas/custom-security</security-domain>
+    <valve>
+        <class-name>org.apache.catalina.valves.RequestDumperValve</class-name>
+    </valve>
 </jboss-web>

@@ -90,6 +90,7 @@ public class LoginTest extends HttpServlet {
       out.println("getUserPrincipal?.."
           + request.getUserPrincipal()+"<br>");
       out.println("getAuthType?.." + request.getAuthType()+"<br>");
+      out.println(request.getRemoteAddr());
     } finally {
       out.close();
     }
