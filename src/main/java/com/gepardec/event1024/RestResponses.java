@@ -48,11 +48,12 @@ public class RestResponses {
   @GET @Path("/players")
   @Produces("application/json")
   public List<User> getAllUsers() {
-    CriteriaBuilder cb = em.getCriteriaBuilder();
-    CriteriaQuery<User> cq = cb.createQuery(User.class);
-    Root<User> rootEntry = cq.from(User.class);
-    CriteriaQuery<User> all = cq.select(rootEntry);
-    TypedQuery<User> allQuery = em.createQuery(all);
+//    CriteriaBuilder cb = em.getCriteriaBuilder();
+//    CriteriaQuery<User> cq = cb.createQuery(User.class);
+//    Root<User> rootEntry = cq.from(User.class);
+//    CriteriaQuery<User> all = cq.select(rootEntry);
+//    TypedQuery<User> allQuery = em.createQuery(all);
+    TypedQuery<User> allQuery = em.createQuery("SELECT u FROM Users u", User.class);
     return allQuery.getResultList();
   }
 
@@ -70,5 +71,12 @@ public class RestResponses {
     }
 
     return getPlayer().getNumberOfClicks();
+  }
+
+  @GET @Path("/click")
+  @Produces("text/plain")
+  public long getClicks() {
+    TypedQuery<Long> query = em.createQuery("SELECT COUNT(*) FROM UserInteraction WHERE type = 1", Long.class);
+    return query.getSingleResult();
   }
 }
