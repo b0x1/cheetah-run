@@ -1,12 +1,9 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Gepardec Gewinnspiel</title>
-  <!--<link rel="stylesheet" href="css/styles.css" type="text/css">-->
-</head>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-<body>
+<t:base>
+<jsp:body>
+
   <section>
     <canvas id="cheetah-track">
       Glory to HTML5 Canvas!
@@ -20,5 +17,6 @@
     <!--<script type="text/javascript" src="js/animate.js"></script>-->
     <script type="text/javascript" src="js/game.js"></script>
   </section>
-</body>
-</html>
+
+</jsp:body>
+</t:base>
