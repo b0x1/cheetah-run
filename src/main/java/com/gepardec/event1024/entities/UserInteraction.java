@@ -1,6 +1,7 @@
 package com.gepardec.event1024.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -33,6 +34,11 @@ public class UserInteraction {
 
   public Integer getType() {
     return type;
+  }
+
+  @JsonManagedReference
+  public User getUser() {
+    return user;
   }
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSSZ")

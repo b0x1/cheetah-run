@@ -37,7 +37,7 @@ Cheetah.prototype = {
 //    console.log(this.imagePos + " " + this.image.src);
   },
 
-  run : function(numberOfSteps) {
+  run : function() {
     // Move Cheetah on screen
     if ((this.steps * this.stepSize < PARAMETERS.constant_run ||
          this.steps >= PARAMETERS.maximum_steps - (PARAMETERS.canvas.width - PARAMETERS.constant_run - this.width) / this.stepSize) &&

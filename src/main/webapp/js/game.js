@@ -10,7 +10,7 @@ function getParameters() {
 }
 
 var PARAMETERS;
-var clicks = 0;
+var processedClick = 0;
 
 var getImage = function(src) {
   var image = new Image();
@@ -36,6 +36,7 @@ window.onload = function() {
   PARAMETERS = getParameters();
   cheetah = new Cheetah(cheetahImages);
   canvas = new Canvas("cheetah-track", canvasBgImage, cheetah);
+  clickAction();
   canvas.draw();
 }
 
@@ -45,9 +46,17 @@ window.onresize = function()  {
   canvas.resize();
 }
 
-window.onkeypress = function(evt) {
-  cheetah.run(clicks);
-  canvas.draw();
+function clickAction() {
+  $.get("/rest/click/" + processedClick, function(data, status) {
+    if (status == "success") {
+      cheetah.run();
+      canvas.draw(data.user.username);
+
+      processedClick += 1;
+    }
+
+    setTimeout(clickAction, 80);
+  });
 };
 
 window.focus();

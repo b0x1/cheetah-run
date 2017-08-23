@@ -1,5 +1,6 @@
 package com.gepardec.event1024.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -31,6 +32,7 @@ public class User {
     return password;
   }
 
+  @JsonBackReference
   public List<UserInteraction> getUserInteractions() {
     return userInteractions;
   }

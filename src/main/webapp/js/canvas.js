@@ -37,7 +37,9 @@ Canvas.prototype = {
     this.ctx.fillText(text, this.cheetah.posX + 30, this.cheetah.posY - 30);
   },
 
-  draw: function() {
+  draw: function(string) {
+    string = string || "";
+
     this.ctx.clearRect(0, 0, this.width, this.height); // Clear Canvas
 
     if (this.cheetah.posX < PARAMETERS.constant_run) {
@@ -47,7 +49,7 @@ Canvas.prototype = {
       this.elem.style.backgroundPosition = this.imageX + 'px 0';
     }
 
-    this.textBubble(cheetah.posX + " " + cheetah.steps);
+    this.textBubble(string);
     this.ctx.drawImage(this.cheetah.image, this.cheetah.posX, this.cheetah.posY, this.cheetah.width, this.cheetah.height);
   }
 }
