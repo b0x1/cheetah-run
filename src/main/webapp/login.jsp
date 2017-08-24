@@ -4,13 +4,16 @@
 <t:base>
 <jsp:body>
 
-<section>
-<h1>Willkommen zum Gepardec-Gewinnspiel</h1>
-<form method="post" action="/login">
-  <p><label>Name: </label><input type="text" name="name" placeholder="Name"></p>
-  <p><label>Firma: </label><input type="text" name="firma" placeholder="Firma"></p>
-  <p><input type="submit" value="Hi"></p>
-</form>
+<section class="container">
+  <t:header />
+  <main class="text-center">
+    <form method="post" action="/login">
+      <p class="lead">Willkommen zum Gewinnspiel!</p>
+      <input type="text" name="name" size="35" placeholder="Name"></p>
+      <input type="text" name="firma" size="35" placeholder="Firma"></p>
+      <p><input type="submit" value="Ahoi!"></p>
+    </form>
+  </main>
 </section>
 
 </jsp:body>

@@ -44,6 +44,7 @@ window.onresize = function()  {
   PARAMETERS = getParameters();
   cheetah.resize();
   canvas.resize();
+  canvas.draw();
 }
 
 function clickAction() {

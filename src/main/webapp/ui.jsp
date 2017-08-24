@@ -3,10 +3,15 @@
 
 <t:base>
 <jsp:body>
+  <section class="container">
+    <t:header />
+    <main class="text-center">
+      <p class="lead">Hallo <span id="welcome"></span>!</p>
+      <button class="btn btn-default" type="button" onclick="run_cheetah()">Run, Cheetah, run!</button>
+      <p>You have clicked <span id="clickCounter">0</span> times.</p>
+    </main>
+  </section>
 
-<section>Hallo <span id="welcome"></span>!</section>
-<button onclick="run_cheetah()">Run, cheetah, run!</button>
-<script type="application/javascript" src="js/ui.js"></script>
-
+  <script type="application/javascript" src="js/ui.js"></script>
 </jsp:body>
 </t:base>

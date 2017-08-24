@@ -27,34 +27,27 @@ public class Login extends HttpServlet {
 
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     if (request.getUserPrincipal() == null) {
-      PrintWriter out = response.getWriter();
       try {
-        User user = loginUser(request);
+        loginUser(request);
 
-        response.sendRedirect("/ui.html");
+        response.sendRedirect("/ui.jsp");
       } catch(ServletException ex) {
         System.out.println("Login Failed with a ServletException.." + ex.getMessage());
         response.sendRedirect("/login");
       } catch (HeuristicMixedException | HeuristicRollbackException | RollbackException | NotSupportedException | SystemException e) {
         response.setStatus(500);
-        out.println(e.getMessage());
+        System.out.println(e.getMessage());
       }
-
     } else {
-      response.sendRedirect("/ui.html");
+      response.sendRedirect("/ui.jsp");
     }
   }
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     if (request.getUserPrincipal() == null) {
-//      request.getRequestDispatcher("/login.html").forward(request, response);
-      // Test Code
-      User user = em.find(User.class, "Klemens");
-      request.login(user.getUsername(), user.getPassword());
-      response.sendRedirect("/ui.html");
-      // End test code
+      request.getRequestDispatcher("/login.jsp").forward(request, response);
     } else {
-      response.sendRedirect("/ui.html");
+      response.sendRedirect("/ui.jsp");
     }
   }
 
