@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Calendar;
 
 @WebServlet(name="Login", urlPatterns={"", "/login"})

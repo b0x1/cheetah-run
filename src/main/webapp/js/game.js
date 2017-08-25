@@ -48,16 +48,26 @@ window.onresize = function()  {
 }
 
 function clickAction() {
-  $.get("/rest/click/" + processedClick, function(data, status) {
-    if (status == "success") {
-      cheetah.run();
-      canvas.draw(data.user.username);
+  if (processedClick < PARAMETERS.maximum_steps) {
+    $.get("/rest/click/" + processedClick, function(data, status) {
+      if (status == "success") {
+        cheetah.run();
+        canvas.draw(data.user.username);
 
-      processedClick += 1;
-    }
+        processedClick += 1;
+      }
 
-    setTimeout(clickAction, 80);
-  });
+      setTimeout(clickAction, 80);
+    });
+  } else {
+    $.get("/rest/click/" + processedClick, function(data, status) {
+      if (status == "success") {
+        canvas.draw("ENDE! Gewinner " + data.user.username);
+      } else {
+        setTimeout(clickAction, 80);
+      }
+    });
+  }
 };
 
 window.focus();
