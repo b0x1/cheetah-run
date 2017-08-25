@@ -29,31 +29,39 @@ Canvas.prototype = {
     this.elem.height = this.height;
   },
 
-  textBubble: function(text) {
-    this.ctx.font = "30pt Arial";
-    this.ctx.fillStyle = "#f7f7f4";
-//    if (cheetah.lastkey)
-//      this.ctx.fillText(cheetah.lastkey, this.cheetah.posX + 30, this.cheetah.posY - 30);
-    this.ctx.fillText(text, this.cheetah.posX + 30, this.cheetah.posY - 30);
-  },
-
-  draw: function(string) {
-    string = string || "";
-
+  draw: function() {
     this.ctx.clearRect(0, 0, this.width, this.height); // Clear Canvas
-
-    if (this.cheetah.posX < PARAMETERS.constant_run) {
-      this.elem.style.backgroundPosition = "0 0";
-    } else if (cheetah.steps <= PARAMETERS.maximum_steps - (PARAMETERS.canvas.width - PARAMETERS.constant_run - cheetah.width) / cheetah.stepSize) {
-      this.imageX -= this.stepSize;
-      this.elem.style.backgroundPosition = this.imageX + 'px 0';
-    }
-
-    this.textBubble(string);
-    this.ctx.drawImage(this.cheetah.image, this.cheetah.posX, this.cheetah.posY, this.cheetah.width, this.cheetah.height);
   }
 }
 
+AugmentedCanvas = function(canvasElement, bgImage, cheetah) {
+  Canvas.call(this, canvasElement, bgImage, cheetah);
+  this.textBubbles = [];
+}
+
+AugmentedCanvas.prototype = Object.create(Canvas.prototype);
+AugmentedCanvas.prototype.constructor = AugmentedCanvas;
+AugmentedCanvas.prototype.draw = function() {
+  this.ctx.clearRect(0, 0, this.width, this.height); // Clear Canvas
+  
+  if (this.cheetah.posX < PARAMETERS.constant_run) {
+    this.elem.style.backgroundPosition = "0 0";
+  } else if (cheetah.steps <= PARAMETERS.maximum_steps - (PARAMETERS.canvas.width - PARAMETERS.constant_run - cheetah.width) / cheetah.stepSize) {
+    this.imageX -= this.stepSize;
+    this.elem.style.backgroundPosition = this.imageX + 'px 0';
+  }
+
+  var tempBubbles = [];
+  for (var i = 0; i < this.textBubbles.length; i++) {
+    this.textBubbles[i].bubble();
+    if (this.textBubbles[i].opacity > 0) {
+      tempBubbles.push(this.textBubbles[i]);
+    }
+  }
+  this.textBubbles = tempBubbles;
+
+  this.ctx.drawImage(this.cheetah.image, this.cheetah.posX, this.cheetah.posY, this.cheetah.width, this.cheetah.height);    
+}
 
 RotatingCanvas = function(canvasElement, bgImage, cheetah, balloons) {
   Canvas.call(this, canvasElement, bgImage, cheetah);
@@ -95,8 +103,4 @@ RotatingCanvas.prototype.draw = function() {
 
     // draw Cheetah
     this.ctx.drawImage(this.cheetah.image, this.cheetah.posX, this.cheetah.posY, this.cheetah.width, this.cheetah.height);
-
-    // DEBUG BUBBLE
-//    this.textBubble(this.imageX + " : " + this.width + " : " + this.background.width);
-
 }

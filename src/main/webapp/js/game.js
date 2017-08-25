@@ -15,9 +15,7 @@ var processedClick = 0;
 var getImage = function(src) {
   var image = new Image();
   image.src = src;
-//  image.onload = function() {
-//    console.log("Image " + src + " loaded.");
-//  };
+
   return image;
 };
 
@@ -35,9 +33,9 @@ var cheetah;
 window.onload = function() {
   PARAMETERS = getParameters();
   cheetah = new Cheetah(cheetahImages);
-  canvas = new Canvas("cheetah-track", canvasBgImage, cheetah);
-  clickAction();
+  canvas = new AugmentedCanvas("cheetah-track", canvasBgImage, cheetah);
   canvas.draw();
+  clickAction();
 }
 
 window.onresize = function()  {
@@ -48,34 +46,44 @@ window.onresize = function()  {
 }
 
 function clickAction() {
-  if (processedClick < PARAMETERS.maximum_steps) {
-    $.get("/rest/click/" + processedClick, function(data, status) {
-      if (status == "success") {
-        cheetah.run();
-        canvas.draw(data.user.username);
+  $.get("/rest/click/" + processedClick, function(data, status) {
+    if (status == "success") {
+      cheetah.run();
+      canvas.textBubbles.push(new TextBubble(canvas.ctx, data.user.username + "(" + processedClick + ")",
+        cheetah.posX + 30, cheetah.posY - 30));
+      canvas.draw();
+      processedClick += 1;
+    }
 
-        processedClick += 1;
-      }
-
+    if (processedClick >= PARAMETERS.maximum_steps) {
+      canvas.textBubbles.push(new TextBubble(canvas.ctx, "Spiel zu Ende!",
+                                      PARAMETERS.canvas.width/3, PARAMETERS.canvas.height/4 , true));
+      canvas.draw();
+    } else {
       setTimeout(clickAction, 80);
-    });
-  } else {
-    $.get("/rest/click/" + processedClick, function(data, status) {
-      if (status == "success") {
-        canvas.draw("ENDE! Gewinner " + data.user.username);
-      } else {
-        setTimeout(clickAction, 80);
-      }
-    });
-  }
-};
+    }
+
+  });
+}
+
+// Test code
+// window.onkeypress = function(evt) {
+//   cheetah.run();
+//   canvas.textBubbles.push(new TextBubble(canvas.ctx, evt.key, cheetah.posX + 30, cheetah.posY - 30));
+//   processedClick += 1;
+//   if (processedClick >= PARAMETERS.maximum_steps) {
+//     stopGame();
+//   } else {
+//     canvas.draw();
+//   }
+// };
+// End test code
 
 window.focus();
 
 var stopGame = function() {
-  window.onkeypress = null;
+  window.onkeypress = undefined;
   clearInterval(canvas.animate);
-  clearInterval(cheetah.animate); // Compatibility issue with Cheetah
 }
 
 

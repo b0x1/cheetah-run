@@ -13,8 +13,9 @@
     </script>
     <script type="text/javascript" src="js/canvas.js"></script>
     <script type="text/javascript" src="js/cheetah.js"></script>
-    <script type="text/javascript" src="js/balloon.js"></script>
+    <!--<script type="text/javascript" src="js/balloon.js"></script>-->
     <!--<script type="text/javascript" src="js/animate.js"></script>-->
+    <script type="text/javascript" src="js/textbubble.js"></script>
     <script type="text/javascript" src="js/game.js"></script>
   </section>
 
