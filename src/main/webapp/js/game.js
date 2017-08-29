@@ -70,7 +70,7 @@ function clickAction() {
   $.get("/rest/click/" + processedClick, function(data, status) {
     if (status == "success") {
       cheetah.run();
-      canvas.textBubbles.push(new TextBubble(canvas.ctx, data.user.username + "(" + processedClick + ")",
+      canvas.textBubbles.push(new TextBubble(canvas.ctx, data.user.username + "(" + (processedClick+1) + ")",
         cheetah.posX + 30, cheetah.posY - 30));
       canvas.draw();
       processedClick += 1;
@@ -90,7 +90,7 @@ function clickAction() {
 // Test code
  window.onkeypress = function(evt) {
    cheetah.run();
-   canvas.textBubbles.push(new TextBubble(canvas.ctx, evt.key, cheetah.posX + 30, cheetah.posY - 30));
+   canvas.textBubbles.push(new TextBubble(canvas.ctx, evt.key + "(" +  (processedClick+1) + ")", cheetah.posX + 30, cheetah.posY - 30));
    processedClick += 1;
    if (processedClick >= PARAMETERS.maximum_steps) {
      stopGame();
