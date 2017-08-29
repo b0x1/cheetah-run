@@ -34,8 +34,9 @@ Canvas.prototype = {
   }
 }
 
-AugmentedCanvas = function(canvasElement, bgImage, cheetah) {
+AugmentedCanvas = function(canvasElement, bgImage, cheetah, pictures) {
   Canvas.call(this, canvasElement, bgImage, cheetah);
+  this.pictures = pictures;
   this.textBubbles = [];
 }
 
@@ -47,8 +48,15 @@ AugmentedCanvas.prototype.draw = function() {
   if (this.cheetah.posX < PARAMETERS.constant_run) {
     this.elem.style.backgroundPosition = "0 0";
   } else if (cheetah.steps <= PARAMETERS.maximum_steps - (PARAMETERS.canvas.width - PARAMETERS.constant_run - cheetah.width) / cheetah.stepSize) {
-    this.imageX -= this.stepSize;
-    this.elem.style.backgroundPosition = this.imageX + 'px 0';
+    this.imageX += this.stepSize;
+    this.elem.style.backgroundPosition = (-this.imageX) + 'px 0';
+  }
+
+  for (var i = 0; i < this.pictures.length; i++) {
+    var p = this.pictures[i];
+    if (p.startingX < this.imageX + this.width) {
+      this.ctx.drawImage(p.image, p.startingX - this.imageX, p.posY, p.width, p.height);
+    }
   }
 
   var tempBubbles = [];

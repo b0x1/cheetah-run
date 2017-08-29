@@ -22,7 +22,6 @@ Cheetah.prototype = {
       this.height = this.image.height / this.image.width * this.width;
     }
 
-
     this.posY = PARAMETERS.canvas.height - this.height - 10;
   },
 

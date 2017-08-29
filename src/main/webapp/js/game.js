@@ -27,21 +27,42 @@ for (var i = 0; i < 17; i++) {
   cheetahImages[i] = getImage(imagePrefix + "cheetahRun" + i +".png");
 }
 
+var pictureData = [
+  ["cateringBalloon.png", 10, 10],
+  ["demoBalloon.png", 100, 20],
+  ["iPadBalloon.png", 300, 30],
+  ["networkingBalloon.png", 1000, 40],
+  ["skystageBalloon.png", 1500, 50],
+  ["speakerBalloon.png", 2300, 60]
+];
+var pictures = [];
+for (var i = 0; i < pictureData.length; i++) {
+  pictureData[i][0] = getImage(imagePrefix + pictureData[i][0]);
+}
+
+
 var canvas;
 var cheetah;
 
 window.onload = function() {
   PARAMETERS = getParameters();
   cheetah = new Cheetah(cheetahImages);
-  canvas = new AugmentedCanvas("cheetah-track", canvasBgImage, cheetah);
+  for (var i = 0; i < pictureData.length; i++) {
+    pictures[i] = new Picture(pictureData[i][0], pictureData[i][1], pictureData[i][2], pictureData[i][3]);
+  }
+  canvas = new AugmentedCanvas("cheetah-track", canvasBgImage, cheetah, pictures);
+
   canvas.draw();
-  clickAction();
+//  clickAction();
 }
 
 window.onresize = function()  {
   PARAMETERS = getParameters();
   cheetah.resize();
   canvas.resize();
+  for (var i=0; i < pictures.length; i++) {
+    pictures[i].resize();
+  }
   canvas.draw();
 }
 
@@ -67,16 +88,16 @@ function clickAction() {
 }
 
 // Test code
-// window.onkeypress = function(evt) {
-//   cheetah.run();
-//   canvas.textBubbles.push(new TextBubble(canvas.ctx, evt.key, cheetah.posX + 30, cheetah.posY - 30));
-//   processedClick += 1;
-//   if (processedClick >= PARAMETERS.maximum_steps) {
-//     stopGame();
-//   } else {
-//     canvas.draw();
-//   }
-// };
+ window.onkeypress = function(evt) {
+   cheetah.run();
+   canvas.textBubbles.push(new TextBubble(canvas.ctx, evt.key, cheetah.posX + 30, cheetah.posY - 30));
+   processedClick += 1;
+   if (processedClick >= PARAMETERS.maximum_steps) {
+     stopGame();
+   } else {
+     canvas.draw();
+   }
+ };
 // End test code
 
 window.focus();
