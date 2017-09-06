@@ -4,8 +4,9 @@ function getParameters() {
       width: window.innerWidth,
       height: window.innerHeight < 851 ? window.innerHeight * 0.7 : 851
     },
-    constant_run: window.innerWidth / 3,
-    maximum_steps: 30, // 1024
+    constantRun: window.innerWidth / 3,
+    maximumSteps: 128, // 1024
+    stepSize: 40
   }
 }
 
@@ -29,18 +30,11 @@ for (var i = 0; i < 17; i++) {
 
 var pictureData = [
   ["cateringBalloon.png", 1, 10],
-  ["demoBalloon.png", 2, 10],
-  ["cateringBalloon.png", 3, 10],
-  ["demoBalloon.png", 4, 10],
-  ["cateringBalloon.png", 5, 10],
-  ["demoBalloon.png", 6, 10],
-  ["cateringBalloon.png", 7, 10],
-  ["demoBalloon.png", 8, 10],
-  ["cateringBalloon.png", 9, 10],
+  ["demoBalloon.png", 5, 10],
+  ["cateringBalloon.png", 10, 10],
   ["iPadBalloon.png", 10, 30],
   ["networkingBalloon.png", 32, 40],
   ["skystageBalloon.png", 64, 50],
-  ["speakerBalloon.png", 40, 60]
 ];
 var pictures = [];
 for (var i = 0; i < pictureData.length; i++) {
@@ -64,7 +58,7 @@ window.onload = function() {
   drawTimeline();
 
   canvas.draw();
-//  clickAction();
+  clickAction();
 }
 
 window.onresize = function()  {
@@ -89,8 +83,8 @@ function drawTimeline(){
   timelineStepSize: the width of the elements
   timelineElementString: The html string with the timeline
   */
-  var timelineBigNumSteps=32, timelineSmallNumSteps=8, timelineStart=0, timelineStop=PARAMETERS.maximum_steps, timelineStartAndStopAlsoBig=true, timelineStepSize=canvas.stepSize
-  var timelineElementString=""
+  var timelineBigNumSteps=32, timelineSmallNumSteps=8, timelineStart=0, timelineStop=PARAMETERS.maximumSteps, timelineStartAndStopAlsoBig=true, timelineStepSize=PARAMETERS.stepSize;
+  var timelineElementString="";
   for(var i=timelineStart; i<=timelineStop; i++){
     // Start and Stop printed big, if enabled
     if((i==timelineStart || i==timelineStop) && timelineStartAndStopAlsoBig){
@@ -144,7 +138,7 @@ function clickAction() {
       processedClick += 1;
     }
 
-    if (processedClick >= PARAMETERS.maximum_steps) {
+    if (processedClick >= PARAMETERS.maximumSteps) {
       canvas.textBubbles.push(new TextBubble(canvas.ctx, "Spiel zu Ende!",
                                       PARAMETERS.canvas.width/3, PARAMETERS.canvas.height/4 , true));
       canvas.draw();
@@ -163,19 +157,19 @@ function showWinScreen(){
   winScreen.style.visibility="visible"
 }
 
-// Test code
- window.onkeypress = function(evt) {
-   cheetah.run();
-   canvas.textBubbles.push(new TextBubble(canvas.ctx, evt.key + "(" +  (processedClick+1) + ")", cheetah.posX + 30, cheetah.posY - 30));
-   processedClick += 1;
-   if (processedClick >= PARAMETERS.maximum_steps) {
-     canvas.draw();
-     showWinScreen();
-     stopGame();
-   } else {
-     canvas.draw();
-   }
- };
+//// Test code
+// window.onkeypress = function(evt) {
+//   cheetah.run();
+//   canvas.textBubbles.push(new TextBubble(canvas.ctx, evt.key + "(" +  (processedClick+1) + ")", cheetah.posX + 30, cheetah.posY - 30));
+//   processedClick += 1;
+//   if (processedClick >= PARAMETERS.maximumSteps) {
+//     canvas.draw();
+//     showWinScreen();
+//     stopGame();
+//   } else {
+//     canvas.draw();
+//   }
+// };
 
 window.focus();
 

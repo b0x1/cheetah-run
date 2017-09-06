@@ -3,7 +3,7 @@ Cheetah = function(images) {
   this.images = images;
   this.imagePos = 0;
   this.image = this.images[this.imagePos];
-  this.stepSize = 40;
+  this.stepSize = PARAMETERS.stepSize;
   this.posX = 0;
   this.steps = 0;
 
@@ -38,13 +38,13 @@ Cheetah.prototype = {
 
   run : function() {
     // Move Cheetah on screen
-    if ((this.steps * this.stepSize < PARAMETERS.constant_run ||
-         this.steps >= PARAMETERS.maximum_steps - (PARAMETERS.canvas.width - PARAMETERS.constant_run - this.width) / this.stepSize) &&
-         this.steps < PARAMETERS.maximum_steps) {
+    if ((this.steps * this.stepSize < PARAMETERS.constantRun ||
+         this.steps >= PARAMETERS.maximumSteps - (PARAMETERS.canvas.width - PARAMETERS.constantRun - this.width) / this.stepSize) &&
+         this.steps < PARAMETERS.maximumSteps) {
       this.posX += this.stepSize;
     }
 
-    if (this.steps < PARAMETERS.maximum_steps) {
+    if (this.steps < PARAMETERS.maximumSteps) {
       this.steps += 1;
       this.rotateImages();
     }
@@ -54,7 +54,7 @@ Cheetah.prototype = {
 
 RunningCheetah = function(images) {
   Cheetah.call(this, images);
-  this.posX = PARAMETERS.constant_run - this.width / 2;
+  this.posX = PARAMETERS.constantRun - this.width / 2;
 }
 
 RunningCheetah.prototype = Object.create(Cheetah.prototype);
@@ -64,5 +64,5 @@ RunningCheetah.prototype.run = function() {
 }
 RunningCheetah.prototype.resize = function() {
   Cheetah.prototype.resize.call(this);
-  this.posX = PARAMETERS.constant_run - this.width / 2;
+  this.posX = PARAMETERS.constantRun - this.width / 2;
 }

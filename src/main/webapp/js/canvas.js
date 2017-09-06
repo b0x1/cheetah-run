@@ -15,7 +15,7 @@ Canvas = function(canvasElement, bgImage, cheetah) {
   style.backgroundSize = "auto 100%";
 
   this.imageX = 0;
-  this.stepSize = 40;
+  this.stepSize = PARAMETERS.stepSize;
 
   this.resize();
 }
@@ -45,18 +45,18 @@ AugmentedCanvas.prototype.constructor = AugmentedCanvas;
 AugmentedCanvas.prototype.draw = function() {
   this.ctx.clearRect(0, 0, this.width, this.height); // Clear Canvas
   
-  if (this.cheetah.posX < PARAMETERS.constant_run) {
+  if (this.cheetah.posX < PARAMETERS.constantRun) {
     this.elem.style.backgroundPosition = "0 0";
     //                        v +2 so that the cheetah does'nt kiss the right browser wall when it reaches its goal
-  } else if (cheetah.steps <= 2 + PARAMETERS.maximum_steps - (PARAMETERS.canvas.width - PARAMETERS.constant_run - cheetah.width) / cheetah.stepSize) {
+  } else if (cheetah.steps <= 2 + PARAMETERS.maximumSteps - (PARAMETERS.canvas.width - PARAMETERS.constantRun - cheetah.width) / cheetah.stepSize) {
     this.imageX += this.stepSize;
     this.elem.style.backgroundPosition = (-this.imageX) + 'px 0';
   }
 
   for (var i = 0; i < this.pictures.length; i++) {
     var p = this.pictures[i];
-    if ((p.dayX+(cheetah.width/this.stepSize))*this.stepSize  < this.imageX + this.width) {
-      this.ctx.drawImage(p.image, (p.dayX+(cheetah.width/this.stepSize))*this.stepSize - this.imageX, p.posY, p.width, p.height);
+    if (p.dayX * this.stepSize + cheetah.width  < this.imageX + this.width) {
+      this.ctx.drawImage(p.image, p.dayX * this.stepSize + cheetah.width - this.imageX, p.posY, p.width, p.height);
     }
   }
 

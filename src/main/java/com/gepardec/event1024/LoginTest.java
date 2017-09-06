@@ -20,7 +20,7 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.UserTransaction;
 
 
-@WebServlet(name="LoginTest", urlPatterns={"/LoginTest"})
+//@WebServlet(name="LoginTest", urlPatterns={"/LoginTest"})
 public class LoginTest extends HttpServlet {
 
   @Resource
