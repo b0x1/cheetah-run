@@ -48,17 +48,24 @@ public class RestResponses {
   @POST @Path("/click")
   @Produces("application/json")
   public long doClick() {
-    UserInteraction ui = new UserInteraction(getPlayer(), Calendar.getInstance().getTime(), UserInteraction.CLICK, httpServletRequest.getRemoteAddr());
-
-    try {
-      userTransaction.begin();
-      em.persist(ui);
-      userTransaction.commit();
-    } catch (Exception e) {
-      e.printStackTrace();
+    User player = em.find(User.class, httpServletRequest.getUserPrincipal().getName());
+    if (player != null) {
+      UserInteraction ui = new UserInteraction(getPlayer(),
+          Calendar.getInstance().getTime(),
+          UserInteraction.CLICK,
+          httpServletRequest.getRemoteAddr());
+      try {
+        userTransaction.begin();
+        em.persist(ui);
+        userTransaction.commit();
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      return player.getNumberOfClicks();
+    } else {
+      return 0;
     }
 
-    return getPlayer().getNumberOfClicks();
   }
 
   @GET @Path("/click/{number}")

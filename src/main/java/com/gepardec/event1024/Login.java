@@ -25,7 +25,7 @@ public class Login extends HttpServlet {
   private EntityManager em;
 
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    if (request.getUserPrincipal() == null) {
+    if (request.getUserPrincipal() == null || em.find(User.class, request.getUserPrincipal().getName()) == null) {
       try {
         loginUser(request);
 
@@ -43,7 +43,7 @@ public class Login extends HttpServlet {
   }
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    if (request.getUserPrincipal() == null) {
+    if (request.getUserPrincipal() == null || em.find(User.class, request.getUserPrincipal().getName()) == null) {
       request.getRequestDispatcher("/login.jsp").forward(request, response);
     } else {
       response.sendRedirect("/ui.jsp");
