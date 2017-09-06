@@ -21,10 +21,10 @@ TextBubble.prototype = {
   },
 };
 
-Picture = function(image, startingX, posY, sizeRatio) {
+Picture = function(image, dayX, posY, sizeRatio) {
   this.image = image;
   this.sizeRatio = sizeRatio || 0.5;
-  this.startingX = startingX || 0;
+  this.dayX = dayX || 0;
   this.posY = posY || 40;
   this.resize();
 }

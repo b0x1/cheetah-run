@@ -3,7 +3,7 @@ Cheetah = function(images) {
   this.images = images;
   this.imagePos = 0;
   this.image = this.images[this.imagePos];
-  this.stepSize = 100;
+  this.stepSize = 40;
   this.posX = 0;
   this.steps = 0;
 

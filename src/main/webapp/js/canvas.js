@@ -47,15 +47,16 @@ AugmentedCanvas.prototype.draw = function() {
   
   if (this.cheetah.posX < PARAMETERS.constant_run) {
     this.elem.style.backgroundPosition = "0 0";
-  } else if (cheetah.steps <= PARAMETERS.maximum_steps - (PARAMETERS.canvas.width - PARAMETERS.constant_run - cheetah.width) / cheetah.stepSize) {
+    //                        v +2 so that the cheetah does'nt kiss the right browser wall when it reaches its goal
+  } else if (cheetah.steps <= 2 + PARAMETERS.maximum_steps - (PARAMETERS.canvas.width - PARAMETERS.constant_run - cheetah.width) / cheetah.stepSize) {
     this.imageX += this.stepSize;
     this.elem.style.backgroundPosition = (-this.imageX) + 'px 0';
   }
 
   for (var i = 0; i < this.pictures.length; i++) {
     var p = this.pictures[i];
-    if (p.startingX < this.imageX + this.width) {
-      this.ctx.drawImage(p.image, p.startingX - this.imageX, p.posY, p.width, p.height);
+    if ((p.dayX+(cheetah.width/this.stepSize))*this.stepSize  < this.imageX + this.width) {
+      this.ctx.drawImage(p.image, (p.dayX+(cheetah.width/this.stepSize))*this.stepSize - this.imageX, p.posY, p.width, p.height);
     }
   }
 
@@ -67,8 +68,11 @@ AugmentedCanvas.prototype.draw = function() {
     }
   }
   this.textBubbles = tempBubbles;
+  this.ctx.drawImage(this.cheetah.image, this.cheetah.posX, this.cheetah.posY, this.cheetah.width, this.cheetah.height);
 
-  this.ctx.drawImage(this.cheetah.image, this.cheetah.posX, this.cheetah.posY, this.cheetah.width, this.cheetah.height);    
+  // Movement for the timeline created in game.js
+  var timeline=document.getElementById('timeline')
+  timeline.style.margin="0px 0px 0px "+(-(this.imageX)+(cheetah.width-(cheetah.width%this.stepSize)))+'px'
 }
 
 RotatingCanvas = function(canvasElement, bgImage, cheetah, balloons) {
