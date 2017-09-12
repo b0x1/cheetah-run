@@ -2,21 +2,19 @@ package com.gepardec.event1024;
 
 import com.gepardec.event1024.entities.User;
 import com.gepardec.event1024.entities.UserInteraction;
+import freemarker.ext.servlet.FreemarkerServlet;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.*;
 import java.io.IOException;
 import java.util.Calendar;
 
-@WebServlet(name="Login", urlPatterns={"", "/login"})
-public class Login extends HttpServlet {
+public class CheetahServlet extends FreemarkerServlet {
 
   @Resource
   private UserTransaction userTransaction;
@@ -24,29 +22,28 @@ public class Login extends HttpServlet {
   @PersistenceContext
   private EntityManager em;
 
-  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     if (request.getUserPrincipal() == null || em.find(User.class, request.getUserPrincipal().getName()) == null) {
       try {
         loginUser(request);
-
-        response.sendRedirect("/ui.jsp");
+        request.getRequestDispatcher("ui.ftl").forward(request, response);
       } catch(ServletException ex) {
         System.out.println("Login Failed with a ServletException.." + ex.getMessage());
-        response.sendRedirect("/login");
+        response.sendRedirect("/");
       } catch (HeuristicMixedException | HeuristicRollbackException | RollbackException | NotSupportedException | SystemException e) {
         response.setStatus(500);
         System.out.println(e.getMessage());
       }
     } else {
-      response.sendRedirect("/ui.jsp");
+      request.getRequestDispatcher("ui.ftl").forward(request, response);
     }
   }
 
-  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     if (request.getUserPrincipal() == null || em.find(User.class, request.getUserPrincipal().getName()) == null) {
-      request.getRequestDispatcher("/login.jsp").forward(request, response);
+      request.getRequestDispatcher("/login.ftl").forward(request, response);
     } else {
-      response.sendRedirect("/ui.jsp");
+      request.getRequestDispatcher("/ui.ftl").forward(request, response);
     }
   }
 

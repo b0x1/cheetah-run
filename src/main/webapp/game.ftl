@@ -1,9 +1,6 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<#include "base.ftl">
 
-<t:base>
-<jsp:body>
-
+<#macro body>
   <section>
     <div id="win-screen" style="visibility: hidden;">
         <img src="images/imgYouWon.jpg" style="visibility: hidden;" />
@@ -40,7 +37,6 @@
     <script type="text/javascript" src="js/canvasobjects.js"></script>
     <script type="text/javascript" src="js/game.js"></script>
   </section>
-  <%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
-  
-</jsp:body>
-</t:base>
+</#macro>
+
+<@display_page/>

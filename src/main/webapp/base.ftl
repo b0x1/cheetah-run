@@ -1,8 +1,4 @@
-<%@tag description="Website base template" pageEncoding="UTF-8"%>
-
-<!doctype html>
-<html lang="en">
-  <head>
+<#macro head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -20,9 +16,36 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="css/styles.css">
+</#macro>
+
+<#macro page_main>
+  <!-- TODO: Fill with content! -->
+</#macro>
+
+<#macro page_header>
+<header class="page-header">
+  <h1>Gepardec IT Services <small>Gewinnspiel</small></h1>
+</header>
+</#macro>
+
+<#macro body>
+  <section class="container">
+    <@page_header/>
+    <main class="text-center">
+      <@page_main/>
+    </main>
+</#macro>
+
+
+<#macro display_page>
+<!doctype html>
+<html lang="en">
+  <head>
+    <@head/>
   </head>
 
   <body>
-     <jsp:doBody />
+    <@body/>
   </body>
 </html>
+</#macro>
