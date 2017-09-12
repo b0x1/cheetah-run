@@ -2,8 +2,11 @@ package com.gepardec.event1024;
 
 import com.gepardec.event1024.entities.User;
 import com.gepardec.event1024.entities.UserInteraction;
+import com.gepardec.event1024.entities.UserRole;
 
 import javax.annotation.Resource;
+import javax.annotation.security.RolesAllowed;
+import javax.inject.Inject;
 import javax.persistence.*;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -21,11 +24,12 @@ public class RestResponses {
   @Context
   private HttpServletRequest httpServletRequest;
 
-  @PersistenceContext
-  private EntityManager em;
+  @Inject
+  private GameState gameState;
 
-  @Resource
-  private UserTransaction userTransaction;
+  @Inject
+  private CheetahDAO dao;
+
 
   @GET @Path("/player")
   @Produces("application/json")
@@ -34,36 +38,28 @@ public class RestResponses {
     if (p == null) {
       return null;
     } else {
-      return em.find(User.class, p.getName());
+      return dao.find(User.class, p.getName());
     }
   }
 
   @GET @Path("/players")
   @Produces("application/json")
   public List<User> getAllUsers() {
-    TypedQuery<User> allQuery = em.createQuery("SELECT u FROM Users u", User.class);
-    return allQuery.getResultList();
+    return dao.getResultList("SELECT u FROM Users u", User.class);
   }
 
   @POST @Path("/click")
-  @Produces("application/json")
   public long doClick() {
-    User player = em.find(User.class, httpServletRequest.getUserPrincipal().getName());
-    if (player != null) {
+    User player = dao.find(User.class, httpServletRequest.getUserPrincipal().getName());
+    if (player != null && getClicks().size() <= CheetahServlet.NUMBER_OF_STEPS) {
       UserInteraction ui = new UserInteraction(getPlayer(),
           Calendar.getInstance().getTime(),
           UserInteraction.CLICK,
           httpServletRequest.getRemoteAddr());
-      try {
-        userTransaction.begin();
-        em.persist(ui);
-        userTransaction.commit();
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
+      dao.persist(ui);
       return player.getNumberOfClicks();
     } else {
-      return 0;
+      return -1;
     }
 
   }
@@ -71,40 +67,44 @@ public class RestResponses {
   @GET @Path("/clicks")
   @Produces("application/json")
   public List<UserInteraction> getClicks() {
-    TypedQuery<UserInteraction> allQuery = em.createQuery("SELECT u FROM UserInteraction u", UserInteraction.class);
-    return allQuery.getResultList();
+    return dao.getResultList("SELECT u FROM UserInteraction u", UserInteraction.class);
   }
 
   @GET @Path("/click/{number}")
   @Produces("application/json")
   public UserInteraction getClick(@PathParam("number") int number) {
-    TypedQuery<UserInteraction> query = em.createQuery("SELECT u FROM UserInteraction u WHERE type = 1",
-        UserInteraction.class);
     try {
-      return query.getResultList().get(number);
+      return dao.getResultList("SELECT u FROM UserInteraction u WHERE type = 1",
+          UserInteraction.class).get(number);
     } catch (IndexOutOfBoundsException e) {
       return null;
     }
   }
 
+//  @RolesAllowed(UserRole.ADMINISTRATOR)
   @GET @Path("/restart_the_game")
   @Produces("text/plain")
   public String cleanSlate() {
     try {
-      userTransaction.begin();
-      Query q1 = em.createQuery("DELETE FROM Users");
-      Query q2 = em.createQuery("DELETE FROM UserInteraction");
-      q2.executeUpdate();
-      q1.executeUpdate();
-      userTransaction.commit();
+      dao.executeQueries(new String[]{"DELETE FROM UserInteraction", "DELETE FROM Users"} );
       httpServletRequest.logout();
       return "DB successfully cleaned";
-    } catch (IllegalStateException | NotSupportedException | SystemException | RollbackException |
-        HeuristicMixedException | HeuristicRollbackException e){
-      e.printStackTrace();
-      return "Error";
     } catch (ServletException e) {
       return "DB successfully cleaned, but error logging out.";
     }
+  }
+
+//  @RolesAllowed(UserRole.ADMINISTRATOR)
+  @GET @Path("/start_the_game")
+  @Produces("text/plain")
+  public String startGame() {
+    gameState.setGameStarted(true);
+    return "Game started";
+  }
+
+  @GET @Path("game_started")
+  @Produces("application/json")
+  public boolean isGameStarted() {
+    return gameState.isGameStarted();
   }
 }
