@@ -36,7 +36,6 @@
     </main>
 </#macro>
 
-
 <#macro display_page>
 <!doctype html>
 <html lang="en">

@@ -30,7 +30,7 @@
     <init-param>
       <param-name>ExceptionOnMissingTemplate</param-name>
       <!-- true => HTTP 500 on missing template, instead of HTTP 404. -->
-      <param-value>true</param-value>
+      <param-value>false</param-value>
     </init-param>
 
     <!-- FreeMarker engine settings: -->
@@ -79,29 +79,11 @@
 
   <servlet-mapping>
     <servlet-name>freemarker</servlet-name>
-    <url-pattern>/</url-pattern>
     <url-pattern>*.ftl</url-pattern>
     <!-- HTML and XML auto-escaped if incompatible_improvements >= 2.3.24: -->
     <url-pattern>*.ftlh</url-pattern>
     <url-pattern>*.ftlx</url-pattern>
   </servlet-mapping>
-
-  <!--
-    Prevent the visiting of MVC Views from outside the servlet container.
-    RequestDispatcher.forward/include should, and will still work.
-    Removing this may open security holes!
-  -->
-  <security-constraint>
-    <web-resource-collection>
-      <web-resource-name>FreeMarker MVC Views</web-resource-name>
-      <url-pattern>*.ftl</url-pattern>
-      <url-pattern>*.ftlh</url-pattern>
-      <url-pattern>*.ftlx</url-pattern>
-    </web-resource-collection>
-    <auth-constraint>
-      <!-- Nobody is allowed to visit these directly. -->
-    </auth-constraint>
-  </security-constraint>
 
 
   <!-- MIME Types in Response headers -->

@@ -1,7 +1,7 @@
 <#include "base.ftl">
 
 <#macro page_main>
-<form method="post" action="/login">
+<form method="post" action="/">
   <p class="lead">Willkommen zum Gewinnspiel!</p>
   <input type="text" name="name" size="35" placeholder="Name"></p>
   <input type="text" name="firma" size="35" placeholder="Firma"></p>

@@ -68,6 +68,13 @@ public class RestResponses {
 
   }
 
+  @GET @Path("/clicks")
+  @Produces("application/json")
+  public List<UserInteraction> getClicks() {
+    TypedQuery<UserInteraction> allQuery = em.createQuery("SELECT u FROM UserInteraction u", UserInteraction.class);
+    return allQuery.getResultList();
+  }
+
   @GET @Path("/click/{number}")
   @Produces("application/json")
   public UserInteraction getClick(@PathParam("number") int number) {

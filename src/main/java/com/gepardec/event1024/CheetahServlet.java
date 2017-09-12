@@ -8,13 +8,16 @@ import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.*;
 import java.io.IOException;
 import java.util.Calendar;
 
-public class CheetahServlet extends FreemarkerServlet {
+@WebServlet(name="game", urlPatterns={""})
+public class CheetahServlet extends HttpServlet {
 
   @Resource
   private UserTransaction userTransaction;
@@ -26,7 +29,7 @@ public class CheetahServlet extends FreemarkerServlet {
     if (request.getUserPrincipal() == null || em.find(User.class, request.getUserPrincipal().getName()) == null) {
       try {
         loginUser(request);
-        request.getRequestDispatcher("ui.ftl").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/templates/ui.ftl").forward(request, response);
       } catch(ServletException ex) {
         System.out.println("Login Failed with a ServletException.." + ex.getMessage());
         response.sendRedirect("/");
@@ -35,15 +38,15 @@ public class CheetahServlet extends FreemarkerServlet {
         System.out.println(e.getMessage());
       }
     } else {
-      request.getRequestDispatcher("ui.ftl").forward(request, response);
+      request.getRequestDispatcher("WEB-INF/templates/ui.ftl").forward(request, response);
     }
   }
 
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     if (request.getUserPrincipal() == null || em.find(User.class, request.getUserPrincipal().getName()) == null) {
-      request.getRequestDispatcher("/login.ftl").forward(request, response);
+      request.getRequestDispatcher("WEB-INF/templates/login.ftl").forward(request, response);
     } else {
-      request.getRequestDispatcher("/ui.ftl").forward(request, response);
+      request.getRequestDispatcher("WEB-INF/templates/ui.ftl").forward(request, response);
     }
   }
 

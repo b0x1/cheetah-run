@@ -1,4 +1,4 @@
-<#include "base.ftl">
+<#include "WEB-INF/templates/base.ftl">
 
 <#macro body>
   <section>
