@@ -49,7 +49,8 @@ public class RestResponses {
   }
 
   @POST @Path("/click")
-  public long doClick() {
+  @Produces("text/plain")
+  public Response doClick() {
     User player = dao.find(User.class, httpServletRequest.getUserPrincipal().getName());
     if (player != null && getClicks().size() <= CheetahServlet.NUMBER_OF_STEPS) {
       UserInteraction ui = new UserInteraction(getPlayer(),
@@ -57,9 +58,9 @@ public class RestResponses {
           UserInteraction.CLICK,
           httpServletRequest.getRemoteAddr());
       dao.persist(ui);
-      return player.getNumberOfClicks();
+      return Response.ok(player.getNumberOfClicks()).build();
     } else {
-      return -1;
+      return Response.noContent().build();
     }
 
   }
@@ -84,13 +85,16 @@ public class RestResponses {
   @RolesAllowed(UserRole.ADMINISTRATOR)
   @GET @Path("/restart_the_game")
   @Produces("text/plain")
-  public String cleanSlate() {
+  public Response cleanSlate() {
     try {
+      dao.cleanDB();
       httpServletRequest.logout();
-      dao.executeQueries(new String[]{"DELETE FROM UserInteraction", "DELETE FROM Users"} );
-      return "DB successfully cleaned";
+      gameState.setGameStarted(false);
+      return Response.ok("DB successfully cleaned").build();
     } catch (ServletException e) {
-      return "DB successfully cleaned, but error logging out.";
+      return Response.serverError().entity("DB successfully cleaned, but error logging out.").build();
+    } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException e) {
+      return Response.serverError().entity(e.getMessage()).build();
     }
   }
 
@@ -104,19 +108,18 @@ public class RestResponses {
 
   @GET @Path("game_started")
   @Produces("text/plain")
-  public Response isGameStarted() {
-    if (gameState.isGameStarted()) return Response.status(Response.Status.OK).entity("Game started").build();
-    else return Response.status(Response.Status.NO_CONTENT).entity("Please be patient.").build();
+  public boolean isGameStarted() {
+    return gameState.isGameStarted();
   }
 
   @GET @Path("logout")
   @Produces("text/plain")
-  public String logout() {
+  public Response logout() {
     try {
       httpServletRequest.logout();
-      return "Erfolgreich ausgeloggt";
+      return Response.ok("Erfolgreich ausgeloggt").build();
     } catch (ServletException e) {
-      return "Serverfehler.";
+      return Response.serverError().entity("Serverfehler: " + e.getMessage()).build();
     }
   }
 }

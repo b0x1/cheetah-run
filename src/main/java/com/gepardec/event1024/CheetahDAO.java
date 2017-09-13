@@ -10,7 +10,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.*;
 import java.util.Calendar;
@@ -28,22 +27,20 @@ public class CheetahDAO {
     return em.find(clazz, o);
   }
 
-  public User loginUser(HttpServletRequest request) throws NotSupportedException, SystemException,
-      HeuristicMixedException, HeuristicRollbackException, RollbackException, ServletException {
+  public User signonUser(HttpServletRequest request) throws NotSupportedException, SystemException,
+      HeuristicMixedException, HeuristicRollbackException, RollbackException {
 
     String userName = request.getParameter("name").trim();
     String firmaName = request.getParameter("firma").trim();
     String address = request.getRemoteAddr();
 
-    User user = loginUser(userName, firmaName, null, address);
-
-    request.login(user.getUsername(), user.getPassword());
+    User user = signonUser(userName, firmaName, null, address);
 
     return user;
   }
 
-  public User loginUser(String userName, String firmaName, String role, String address) throws NotSupportedException, SystemException,
-      HeuristicMixedException, HeuristicRollbackException, RollbackException, ServletException {
+  public User signonUser(String userName, String firmaName, String role, String address) throws NotSupportedException, SystemException,
+      HeuristicMixedException, HeuristicRollbackException, RollbackException {
     if (role == null) role = UserRole.GUEST;
     if (address == null) address = "localhost";
 
@@ -70,6 +67,12 @@ public class CheetahDAO {
     return user;
   }
 
+  public void createAdmin() throws NotSupportedException, SystemException,
+      HeuristicMixedException, HeuristicRollbackException, RollbackException {
+    signonUser("Erhard", "Gepardec", UserRole.ADMINISTRATOR, null);
+  }
+
+
   public <T> List<T> getResultList(String queryString, Class<T> clazz) {
     TypedQuery<T> query = em.createQuery(queryString, clazz);
     return query.getResultList();
@@ -85,17 +88,19 @@ public class CheetahDAO {
     }
   }
 
-  public void executeQueries(String[] queries) {
-    try {
-      userTransaction.begin();
-      for (String s : queries) {
-        Query q = em.createQuery(s);
-        q.executeUpdate();
-      }
-      userTransaction.commit();
-    } catch (IllegalStateException | NotSupportedException | SystemException | RollbackException |
-        HeuristicMixedException | HeuristicRollbackException e) {
-      e.printStackTrace();
+  public void executeQueries(String[] queries) throws NotSupportedException, SystemException,
+      RollbackException, HeuristicMixedException, HeuristicRollbackException {
+    userTransaction.begin();
+    for (String s : queries) {
+      Query q = em.createQuery(s);
+      q.executeUpdate();
     }
+    userTransaction.commit();
+  }
+
+  public void cleanDB() throws NotSupportedException, SystemException,
+      RollbackException, HeuristicMixedException, HeuristicRollbackException {
+    executeQueries(new String[]{"DELETE FROM UserInteraction", "DELETE FROM UserRoles", "DELETE FROM Users"} );
+    createAdmin();
   }
 }

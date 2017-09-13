@@ -20,16 +20,19 @@ public class CheetahServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     if (request.getUserPrincipal() == null || dao.find(User.class, request.getUserPrincipal().getName()) == null) {
       try {
-        dao.loginUser(request);
+        User user = dao.signonUser(request);
+        request.login(user.getUsername(), user.getPassword());
         request.getRequestDispatcher("WEB-INF/templates/ui.ftl").forward(request, response);
-      } catch(ServletException ex) {
-        System.out.println("Login failed because of a ServletException.." + ex.getMessage());
-        response.sendRedirect("/");
+      } catch(ServletException e) {
+        request.setAttribute("errorTitle", "Server-Fehler.");
+        request.setAttribute("errorMessage", e.getMessage());
+        response.setStatus(500);
+        request.getRequestDispatcher("WEB-INF/templates/login.ftl").forward(request, response);
       } catch (HeuristicMixedException | HeuristicRollbackException | RollbackException | NotSupportedException | SystemException e) {
         request.setAttribute("errorTitle", "Login-Fehler.");
         request.setAttribute("errorMessage", e.getMessage());
-        request.getRequestDispatcher("WEB-INF/templates/login.ftl").forward(request, response);
         response.setStatus(500);
+        request.getRequestDispatcher("WEB-INF/templates/login.ftl").forward(request, response);
         System.out.println(e.getMessage());
       }
     } else {

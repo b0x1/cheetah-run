@@ -13,8 +13,8 @@ function run_cheetah() {
 }
 
 function waitForStart() {
-  $.get("/rest/game_started", function(data, status) {
-    if (status == "success") {
+  $.get("/rest/game_started", function(data) {
+    if (data == "true") {
       $("#runButton").removeAttr("disabled");
     } else {
       setTimeout(waitForStart, 80);
