@@ -1,6 +1,13 @@
 <#include "WEB-INF/templates/base.ftl">
 
 <#macro body>
+  <main id="qrcode" style="display: none;"></main>
+  <#-- QRCode generator -->
+  <script src="/js/qrcode.js"></script>
+  <script type="text/javascript">
+    new QRCode(document.getElementById("qrcode"), window.location.href);
+  </script>
+
   <section>
     <div id="win-screen" style="visibility: hidden;">
         <img src="images/imgYouWon.jpg" style="visibility: hidden;" />
@@ -37,6 +44,7 @@
     <script type="text/javascript" src="js/canvasobjects.js"></script>
     <script type="text/javascript" src="js/game.js"></script>
   </section>
+
 </#macro>
 
 <@display_page/>

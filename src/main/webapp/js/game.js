@@ -29,10 +29,6 @@ for (var i = 0; i < 17; i++) {
 }
 
 var pictureData = [
-  ["cateringBalloon.png", 1, 10],
-  ["demoBalloon.png", 5, 10],
-  ["cateringBalloon.png", 10, 10],
-  ["iPadBalloon.png", 10, 30],
   ["networkingBalloon.png", 32, 40],
   ["skystageBalloon.png", 64, 50],
 ];
@@ -42,6 +38,7 @@ for (var i = 0; i < pictureData.length; i++) {
 
   pictureData[i][1] = (pictureData[i][1]);
 }
+pictureData[pictureData.length] = [$("#qrcode img")[0] , -12, 20]; // QRCode
 
 
 var canvas;
