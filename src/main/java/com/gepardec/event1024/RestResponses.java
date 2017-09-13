@@ -67,44 +67,57 @@ public class RestResponses {
   @GET @Path("/clicks")
   @Produces("application/json")
   public List<UserInteraction> getClicks() {
-    return dao.getResultList("SELECT u FROM UserInteraction u", UserInteraction.class);
+    return dao.getResultList("SELECT u FROM UserInteraction u WHERE type = " + UserInteraction.CLICK,
+        UserInteraction.class);
   }
 
   @GET @Path("/click/{number}")
   @Produces("application/json")
   public UserInteraction getClick(@PathParam("number") int number) {
     try {
-      return dao.getResultList("SELECT u FROM UserInteraction u WHERE type = 1",
-          UserInteraction.class).get(number);
+      return getClicks().get(number);
     } catch (IndexOutOfBoundsException e) {
       return null;
     }
   }
 
-//  @RolesAllowed(UserRole.ADMINISTRATOR)
+  @RolesAllowed(UserRole.ADMINISTRATOR)
   @GET @Path("/restart_the_game")
   @Produces("text/plain")
   public String cleanSlate() {
     try {
-      dao.executeQueries(new String[]{"DELETE FROM UserInteraction", "DELETE FROM Users"} );
       httpServletRequest.logout();
+      dao.executeQueries(new String[]{"DELETE FROM UserInteraction", "DELETE FROM Users"} );
       return "DB successfully cleaned";
     } catch (ServletException e) {
       return "DB successfully cleaned, but error logging out.";
     }
   }
 
-//  @RolesAllowed(UserRole.ADMINISTRATOR)
+  @RolesAllowed(UserRole.ADMINISTRATOR)
   @GET @Path("/start_the_game")
   @Produces("text/plain")
   public String startGame() {
     gameState.setGameStarted(true);
-    return "Game started";
+    return "Spiel gestartet";
   }
 
   @GET @Path("game_started")
-  @Produces("application/json")
-  public boolean isGameStarted() {
-    return gameState.isGameStarted();
+  @Produces("text/plain")
+  public Response isGameStarted() {
+    if (gameState.isGameStarted()) return Response.status(Response.Status.OK).entity("Game started").build();
+    else return Response.status(Response.Status.NO_CONTENT).entity("Please be patient.").build();
+  }
+
+  @GET @Path("logout")
+  @Produces("text/plain")
+  public String logout() {
+    try {
+      httpServletRequest.logout();
+      return "Erfolgreich ausgeloggt";
+    } catch (ServletException e) {
+      return "Serverfehler.";
+    }
   }
 }
+

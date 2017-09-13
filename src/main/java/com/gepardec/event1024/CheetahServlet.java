@@ -23,9 +23,12 @@ public class CheetahServlet extends HttpServlet {
         dao.loginUser(request);
         request.getRequestDispatcher("WEB-INF/templates/ui.ftl").forward(request, response);
       } catch(ServletException ex) {
-        System.out.println("Login Failed with a ServletException.." + ex.getMessage());
+        System.out.println("Login failed because of a ServletException.." + ex.getMessage());
         response.sendRedirect("/");
       } catch (HeuristicMixedException | HeuristicRollbackException | RollbackException | NotSupportedException | SystemException e) {
+        request.setAttribute("errorTitle", "Login-Fehler.");
+        request.setAttribute("errorMessage", e.getMessage());
+        request.getRequestDispatcher("WEB-INF/templates/login.ftl").forward(request, response);
         response.setStatus(500);
         System.out.println(e.getMessage());
       }

@@ -60,7 +60,7 @@ public class CheetahDAO {
     } else if (user.getPassword().equals(firmaName)) {
       ui = new UserInteraction(user, Calendar.getInstance().getTime(), UserInteraction.LOGIN, address);
     } else {
-      throw new SystemException("User does not match company name.");
+      throw new SystemException("Spieler ist mit einem anderen Firmennamen eingeloggt.");
     }
 
     userTransaction.begin();

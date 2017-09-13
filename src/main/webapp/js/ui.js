@@ -11,3 +11,15 @@ function run_cheetah() {
   numberOfClicks += 1;
   $("#clickCounter").html(numberOfClicks);
 }
+
+function waitForStart() {
+  $.get("/rest/game_started", function(data, status) {
+    if (status == "success") {
+      $("#runButton").removeAttr("disabled");
+    } else {
+      setTimeout(waitForStart, 80);
+    }
+  });
+}
+
+waitForStart();

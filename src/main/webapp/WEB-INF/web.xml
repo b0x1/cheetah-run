@@ -85,6 +85,11 @@
     <url-pattern>*.ftlx</url-pattern>
   </servlet-mapping>
 
+  <!-- Switch on @RolesAllowed, @PermitAll and @DenyAll annotations for JAX-RS -->
+  <context-param>
+    <param-name>resteasy.role.based.security</param-name>
+    <param-value>true</param-value>
+  </context-param>
 
   <!-- MIME Types in Response headers -->
   <mime-mapping>
