@@ -14,7 +14,7 @@
   <main id="qrcode" style="display: none;"></main>
   <script src="js/qrcode.js"></script>
   <script type="text/javascript">
-    new QRCode(document.getElementById("qrcode"), window.location.href);
+    new QRCode(document.getElementById("qrcode"), window.location.host);
   </script>
   <div id="win-screen" style="visibility: hidden;">
     <img src="images/imgYouWon.jpg" style="visibility: hidden;" />
@@ -26,22 +26,7 @@
     <div id="timeline">
     </div>
   </div>
-  <style>
-      #win-screen{
 
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-
-        text-alignment: center;
-        vertical-alignment: middle;
-        font-size: 50px;
-
-        background-image: url("images/imgYouWon.jpg");
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-      }
-    </style>
   <script type="text/javascript">
     var imagePrefix = "images/";
   </script>
@@ -55,7 +40,7 @@
    // Test code
    window.onkeypress = function(evt) {
      cheetah.run();
-           canvas.textBubbles.push(new TextBubble(canvas.ctx, evt.key + "(" + (processedClick+1) + ")",
+           canvas.textBubbles.push(new TextBubble(canvas.ctx, evt.key + " (" + (processedClick+1) + ")",
         cheetah.posX + cheetah.width / 2, cheetah.posY - 30));
      processedClick += 1;
      if (processedClick >= PARAMETERS.maximumSteps) {

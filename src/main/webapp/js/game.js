@@ -117,7 +117,7 @@ function clickAction() {
   $.get("/rest/click/" + processedClick, function(data, status) {
     if (status == "success") {
       cheetah.run();
-      canvas.textBubbles.push(new TextBubble(canvas.ctx, data.user.username + "(" + (processedClick+1) + ")",
+      canvas.textBubbles.push(new TextBubble(canvas.ctx, data.user.username + " (" + (processedClick+1) + ")",
         cheetah.posX + cheetah.width / 2, cheetah.posY - 30));
       canvas.draw();
       processedClick += 1;

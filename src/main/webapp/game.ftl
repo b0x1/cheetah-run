@@ -5,7 +5,7 @@
   <#-- QRCode generator -->
   <script src="/js/qrcode.js"></script>
   <script type="text/javascript">
-    new QRCode(document.getElementById("qrcode"), window.location.href);
+    new QRCode(document.getElementById("qrcode"), window.location.host);
   </script>
 
   <section>
@@ -19,22 +19,6 @@
         <div id="timeline">
         </div>
     </div>
-    <style>
-      #win-screen{
-
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-
-        text-alignment: center;
-        vertical-alignment: middle;
-        font-size: 50px;
-
-        background-image: url("images/imgYouWon.jpg");
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-      }
-    </style>
     <script type="text/javascript">
       var imagePrefix = "images/";
     </script>
