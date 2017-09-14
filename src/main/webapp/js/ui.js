@@ -7,9 +7,10 @@ $.get("/rest/player", function(data, status) {
 });
 
 function run_cheetah() {
-  $.post("/rest/click");
-  numberOfClicks += 1;
-  $("#clickCounter").html(numberOfClicks);
+  $.post("/rest/click", function(data, status) {
+    numberOfClicks += 1;
+    $("#clickCounter").html(numberOfClicks);
+  });
 }
 
 function waitForStart() {

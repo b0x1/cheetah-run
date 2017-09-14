@@ -16,9 +16,9 @@ TextBubble.prototype = {
     this.ctx.fillStyle = "rgba(0, 0, 0, " + this.opacity + ")";
     this.ctx.fillText(this.text, this.posX, this.posY);
 
-    this.opacity -= 0.2;
+    this.opacity -= 0.1;
     this.posY -= 40;
-  },
+  }
 };
 
 Picture = function(image, dayX, posY, sizeRatio) {
@@ -27,7 +27,7 @@ Picture = function(image, dayX, posY, sizeRatio) {
   this.dayX = dayX || 0;
   this.posY = posY || 40;
   this.resize();
-}
+};
 
 Picture.prototype = {
   constructor: Picture,
@@ -41,7 +41,7 @@ Picture.prototype = {
       this.height = this.image.height / this.image.width * this.width;
     }
   }
-}
+};
 
 
 Balloon = function(image, baseLine, amplitude) {
@@ -49,7 +49,7 @@ Balloon = function(image, baseLine, amplitude) {
   this.resize();
   this.canvasWidth = PARAMETERS.canvas.width;
   this.posY = this.fly();
-}
+};
 
 Balloon.prototype = {
   constructor: Balloon,
@@ -77,4 +77,4 @@ Balloon.prototype = {
     this.posX -= this.stepSize;
     return y;
   }
-}
+};

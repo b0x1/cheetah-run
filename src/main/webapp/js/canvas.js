@@ -18,7 +18,7 @@ Canvas = function(canvasElement, bgImage, cheetah) {
   this.stepSize = PARAMETERS.stepSize;
 
   this.resize();
-}
+};
 
 Canvas.prototype = {
   constructor: Canvas,
@@ -32,13 +32,13 @@ Canvas.prototype = {
   draw: function() {
     this.ctx.clearRect(0, 0, this.width, this.height); // Clear Canvas
   }
-}
+};
 
 AugmentedCanvas = function(canvasElement, bgImage, cheetah, pictures) {
   Canvas.call(this, canvasElement, bgImage, cheetah);
   this.pictures = pictures;
   this.textBubbles = [];
-}
+};
 
 AugmentedCanvas.prototype = Object.create(Canvas.prototype);
 AugmentedCanvas.prototype.constructor = AugmentedCanvas;
@@ -47,8 +47,7 @@ AugmentedCanvas.prototype.draw = function() {
   
   if (this.cheetah.posX < PARAMETERS.constantRun) {
     this.elem.style.backgroundPosition = "0 0";
-    //                        v +2 so that the cheetah does'nt kiss the right browser wall when it reaches its goal
-  } else if (cheetah.steps <= 2 + PARAMETERS.maximumSteps - (PARAMETERS.canvas.width - PARAMETERS.constantRun - cheetah.width) / cheetah.stepSize) {
+  } else if (cheetah.steps <= PARAMETERS.maximumSteps - (PARAMETERS.canvas.width - PARAMETERS.constantRun - cheetah.width) / cheetah.stepSize) {
     this.imageX += this.stepSize;
     this.elem.style.backgroundPosition = (-this.imageX) + 'px 0';
   }
@@ -73,14 +72,21 @@ AugmentedCanvas.prototype.draw = function() {
   // Movement for the timeline created in game.js
   var timeline=document.getElementById('timeline')
   timeline.style.margin="0px 0px 0px "+(-(this.imageX)+(cheetah.width-(cheetah.width%this.stepSize)))+'px'
-}
+};
+
+AugmentedCanvas.prototype.showWinScreen = function(){
+  var winScreen=document.getElementById("win-screen");
+
+  winScreen.style.visibility="visible";
+};
+
 
 RotatingCanvas = function(canvasElement, bgImage, cheetah, balloons) {
   Canvas.call(this, canvasElement, bgImage, cheetah);
   this.balloons = balloons;
   this.balloonIndex = 0;
   this.stepSize = 10;
-}
+};
 
 RotatingCanvas.prototype = Object.create(Canvas.prototype);
 RotatingCanvas.prototype.constructor = RotatingCanvas;
@@ -115,4 +121,4 @@ RotatingCanvas.prototype.draw = function() {
 
     // draw Cheetah
     this.ctx.drawImage(this.cheetah.image, this.cheetah.posX, this.cheetah.posY, this.cheetah.width, this.cheetah.height);
-}
+};

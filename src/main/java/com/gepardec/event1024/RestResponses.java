@@ -4,10 +4,8 @@ import com.gepardec.event1024.entities.User;
 import com.gepardec.event1024.entities.UserInteraction;
 import com.gepardec.event1024.entities.UserRole;
 
-import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
-import javax.persistence.*;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.*;
@@ -15,7 +13,6 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
-import java.security.Principal;
 import java.util.*;
 
 @Path("/")
@@ -31,17 +28,6 @@ public class RestResponses {
   private CheetahDAO dao;
 
 
-  @GET @Path("/player")
-  @Produces("application/json")
-  public User getPlayer()  {
-    Principal p = httpServletRequest.getUserPrincipal();
-    if (p == null) {
-      return null;
-    } else {
-      return dao.find(User.class, p.getName());
-    }
-  }
-
   @GET @Path("/players")
   @Produces("application/json")
   public List<User> getAllUsers() {
@@ -52,8 +38,8 @@ public class RestResponses {
   @Produces("text/plain")
   public Response doClick() {
     User player = dao.find(User.class, httpServletRequest.getUserPrincipal().getName());
-    if (player != null && getClicks().size() <= CheetahServlet.NUMBER_OF_STEPS) {
-      UserInteraction ui = new UserInteraction(getPlayer(),
+    if (player != null && getClicks().size() <= GameState.NUMBER_OF_STEPS + 8) {
+      UserInteraction ui = new UserInteraction(player,
           Calendar.getInstance().getTime(),
           UserInteraction.CLICK,
           httpServletRequest.getRemoteAddr());

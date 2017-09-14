@@ -5,9 +5,9 @@ function getParameters() {
       height: window.innerHeight < 851 ? window.innerHeight * 0.7 : 851
     },
     constantRun: window.innerWidth / 3,
-    maximumSteps: 128, // 1024
+    maximumSteps: 64, // 1024
     stepSize: 40
-  }
+  };
 }
 
 var PARAMETERS;
@@ -38,7 +38,7 @@ for (var i = 0; i < pictureData.length; i++) {
 
   pictureData[i][1] = (pictureData[i][1]);
 }
-pictureData[pictureData.length] = [$("#qrcode img")[0] , -12, 20]; // QRCode
+pictureData[pictureData.length] = [ document.querySelector("#qrcode img") , -12, 20]; // QRCode
 
 
 var canvas;
@@ -55,8 +55,8 @@ window.onload = function() {
   drawTimeline();
 
   canvas.draw();
-  clickAction();
-}
+//  clickAction();
+};
 
 window.onresize = function()  {
   PARAMETERS = getParameters();
@@ -66,7 +66,7 @@ window.onresize = function()  {
     pictures[i].resize();
   }
   canvas.draw();
-}
+};
 
 
 // Function to draw a configurable timeline below the game (it draws only one time and gets moved in canvas.js in AugementedCanvas)
@@ -138,8 +138,7 @@ function clickAction() {
     if (processedClick >= PARAMETERS.maximumSteps) {
       canvas.textBubbles.push(new TextBubble(canvas.ctx, "Spiel zu Ende!",
                                       PARAMETERS.canvas.width/3, PARAMETERS.canvas.height/4 , true));
-      canvas.draw();
-      showWinScreen();
+      canvas.showWinScreen();
     } else {
       setTimeout(clickAction, 80);
     }
@@ -147,33 +146,13 @@ function clickAction() {
   });
 }
 
-// When the game is finished (Cheetah reaches the goal), a winscreen is shown
-function showWinScreen(){
-  var winScreen=document.getElementById("win-screen")
-
-  winScreen.style.visibility="visible"
-}
-
-//// Test code
-// window.onkeypress = function(evt) {
-//   cheetah.run();
-//   canvas.textBubbles.push(new TextBubble(canvas.ctx, evt.key + "(" +  (processedClick+1) + ")", cheetah.posX + 30, cheetah.posY - 30));
-//   processedClick += 1;
-//   if (processedClick >= PARAMETERS.maximumSteps) {
-//     canvas.draw();
-//     showWinScreen();
-//     stopGame();
-//   } else {
-//     canvas.draw();
-//   }
-// };
 
 window.focus();
 
 var stopGame = function() {
   window.onkeypress = undefined;
   clearInterval(canvas.animate);
-}
+};
 // End test code
 
 

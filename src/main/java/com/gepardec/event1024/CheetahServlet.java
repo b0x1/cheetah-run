@@ -9,20 +9,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.*;
 import java.io.IOException;
+import java.security.Principal;
 
 @WebServlet(name="game", urlPatterns={""})
 public class CheetahServlet extends HttpServlet {
-  protected static final int NUMBER_OF_STEPS = 1024;
 
   @Inject
   private CheetahDAO dao;
 
+  @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    if (request.getUserPrincipal() == null || dao.find(User.class, request.getUserPrincipal().getName()) == null) {
+    User p = getPlayer(request);
+    if (p == null) {
       try {
-        User user = dao.signonUser(request);
-        request.login(user.getUsername(), user.getPassword());
-        request.getRequestDispatcher("WEB-INF/templates/ui.ftl").forward(request, response);
+        p = dao.signonUser(request);
+        request.login(p.getUsername(), p.getPassword());
+        forwardToUI(request, response, p);
       } catch(ServletException e) {
         request.setAttribute("errorTitle", "Server-Fehler.");
         request.setAttribute("errorMessage", e.getMessage());
@@ -36,16 +38,28 @@ public class CheetahServlet extends HttpServlet {
         System.out.println(e.getMessage());
       }
     } else {
-      request.getRequestDispatcher("WEB-INF/templates/ui.ftl").forward(request, response);
+      forwardToUI(request, response, p);
     }
   }
 
+  @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    if (request.getUserPrincipal() == null || dao.find(User.class, request.getUserPrincipal().getName()) == null) {
+    User p = getPlayer(request);
+    if (p == null) {
       request.getRequestDispatcher("WEB-INF/templates/login.ftl").forward(request, response);
     } else {
-      request.getRequestDispatcher("WEB-INF/templates/ui.ftl").forward(request, response);
+      forwardToUI(request, response, p);
     }
   }
+  
+  private User getPlayer(HttpServletRequest request)  {
+    Principal p = request.getUserPrincipal();
+    return p == null? null : dao.find(User.class, p.getName());
+  }
 
+  private void forwardToUI(HttpServletRequest request, HttpServletResponse response, User player)  throws ServletException, IOException {
+    request.setAttribute("player", player.getUsername());
+    request.setAttribute("clicks", player.getNumberOfClicks());
+    request.getRequestDispatcher("WEB-INF/templates/ui.ftl").forward(request, response); 
+  }
 }

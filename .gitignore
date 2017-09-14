@@ -4,3 +4,6 @@ target/
 # IntelliJ
 .idea/
 *.iml
+
+# NetBeans
+nb-configuration.xml

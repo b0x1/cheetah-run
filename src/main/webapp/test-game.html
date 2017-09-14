@@ -3,12 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+ 
   <title>Gepardec Gewinnspiel</title>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 </head>
 
 <body>
 <section>
+  <main id="qrcode" style="display: none;"></main>
+  <script src="js/qrcode.js"></script>
+  <script type="text/javascript">
+    new QRCode(document.getElementById("qrcode"), window.location.href);
+  </script>
   <div id="win-screen" style="visibility: hidden;">
     <img src="images/imgYouWon.jpg" style="visibility: hidden;" />
   </div>
@@ -37,12 +44,27 @@
     </style>
   <script type="text/javascript">
     var imagePrefix = "images/";
-    </script>
+  </script>
   <script type="text/javascript" src="js/canvas.js"></script>
   <script type="text/javascript" src="js/cheetah.js"></script>
   <!--<script type="text/javascript" src="js/animate.js"></script>-->
   <script type="text/javascript" src="js/canvasobjects.js"></script>
   <script type="text/javascript" src="js/game.js"></script>
+  <script>
+   // Test code
+   window.onkeypress = function(evt) {
+     cheetah.run();
+     canvas.textBubbles.push(new TextBubble(canvas.ctx, evt.key + "(" +  (processedClick+1) + ")", cheetah.posX + 30, cheetah.posY - 30));
+     processedClick += 1;
+     if (processedClick >= PARAMETERS.maximumSteps) {
+       canvas.draw();
+      canvas.showWinScreen();
+       stopGame();
+     } else {
+       canvas.draw();
+     }
+   };
+  </script>
 </section>
 
 </body>

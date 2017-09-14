@@ -5,7 +5,7 @@ function getParameters() {
       height: window.innerHeight < 851 ? window.innerHeight * 0.7 : 851
     },
     constantRun: window.innerWidth / 2
-  }
+  };
 }
 
 var PARAMETERS;
@@ -52,7 +52,7 @@ window.onload = function() {
 
   canvas.animate = setInterval(canvas.draw.bind(canvas), 50);
   cheetah.animate = setInterval(cheetah.run.bind(cheetah), 60);
-}
+};
 
 window.onresize = function()  {
   PARAMETERS = getParameters();
@@ -61,7 +61,7 @@ window.onresize = function()  {
   for (var i = 0; i < balloons.length; i++) {
     balloons[i].resize();
   }
-}
+};
 
 var stopGame = function() {
   clearInterval(canvas.animate);
@@ -69,7 +69,7 @@ var stopGame = function() {
   for (var i = 0; i < balloonImages.length; i++) {
     clearInterval(balloons[i]);
   }
-}
+};
 
 
 

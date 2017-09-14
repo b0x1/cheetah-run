@@ -8,7 +8,7 @@ Cheetah = function(images) {
   this.steps = 0;
 
   this.resize();
-}
+};
 
 Cheetah.prototype = {
   constructor: Cheetah,
@@ -49,20 +49,20 @@ Cheetah.prototype = {
       this.rotateImages();
     }
   }
-}
+};
 
 
 RunningCheetah = function(images) {
   Cheetah.call(this, images);
   this.posX = PARAMETERS.constantRun - this.width / 2;
-}
+};
 
 RunningCheetah.prototype = Object.create(Cheetah.prototype);
 RunningCheetah.prototype.constructor = RunningCheetah;
 RunningCheetah.prototype.run = function() {
   this.rotateImages();
-}
+};
 RunningCheetah.prototype.resize = function() {
   Cheetah.prototype.resize.call(this);
   this.posX = PARAMETERS.constantRun - this.width / 2;
-}
+};
