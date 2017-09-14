@@ -39,12 +39,13 @@ public class User {
 
   public int getNumberOfClicks() {
     int clicks = 0;
-    for (UserInteraction ui : userInteractions) {
-      if (ui.getType().equals(UserInteraction.CLICK)) {
-        clicks += 1;
+    if (userInteractions != null) {
+      for (UserInteraction ui : userInteractions) {
+        if (ui.getType().equals(UserInteraction.CLICK)) {
+          clicks += 1;
+        }
       }
     }
-
     return clicks;
   }
 }

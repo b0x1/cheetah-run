@@ -14,6 +14,7 @@ TextBubble.prototype = {
   
   bubble: function() {
     this.ctx.fillStyle = "rgba(0, 0, 0, " + this.opacity + ")";
+    this.ctx.textAlign="center";
     this.ctx.fillText(this.text, this.posX, this.posY);
 
     this.opacity -= 0.1;

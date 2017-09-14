@@ -13,7 +13,7 @@
   </#if>
   <input type="text" name="name" size="35" placeholder="Name"></p>
   <input type="text" name="firma" size="35" placeholder="Firma"></p>
-  <p><input type="submit" value="Ahoi!"></p>
+  <p><input type="submit" class="btn btn-primary" value="Ahoi!"></p>
 </form>
 </#macro>
 

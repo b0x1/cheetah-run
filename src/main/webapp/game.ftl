@@ -36,8 +36,9 @@
       }
     </style>
     <script type="text/javascript">
-    var imagePrefix = "images/";
+      var imagePrefix = "images/";
     </script>
+    <script type="text/javascript" src="js/parameters.js"></script>
     <script type="text/javascript" src="js/canvas.js"></script>
     <script type="text/javascript" src="js/cheetah.js"></script>
     <!--<script type="text/javascript" src="js/animate.js"></script>-->

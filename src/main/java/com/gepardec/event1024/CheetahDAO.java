@@ -78,6 +78,11 @@ public class CheetahDAO {
     return query.getResultList();
   }
 
+  public <T> T getResult(String queryString, Class<T> clazz) {
+    TypedQuery<T> query = em.createQuery(queryString, clazz);
+    return query.getSingleResult();
+  }
+
   public void persist(Object o) {
     try {
       userTransaction.begin();

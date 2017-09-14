@@ -38,17 +38,22 @@ public class RestResponses {
   @Produces("text/plain")
   public Response doClick() {
     User player = dao.find(User.class, httpServletRequest.getUserPrincipal().getName());
-    if (player != null && getClicks().size() <= GameState.NUMBER_OF_STEPS + 8) {
-      UserInteraction ui = new UserInteraction(player,
-          Calendar.getInstance().getTime(),
-          UserInteraction.CLICK,
-          httpServletRequest.getRemoteAddr());
-      dao.persist(ui);
-      return Response.ok(player.getNumberOfClicks()).build();
+    if (player != null && getNumberOfClicks() < GameState.NUMBER_OF_STEPS) {
+        UserInteraction ui = new UserInteraction(player,
+            Calendar.getInstance().getTime(),
+            UserInteraction.CLICK,
+            httpServletRequest.getRemoteAddr());
+        dao.persist(ui);
+        if (getNumberOfClicks() >= GameState.NUMBER_OF_STEPS) gameState.setRunning(false);
+        return Response.ok(player.getNumberOfClicks() + 1).build();
     } else {
+      gameState.setRunning(false);
       return Response.noContent().build();
     }
+  }
 
+  private long getNumberOfClicks() {
+    return dao.getResult("SELECT COUNT(u) FROM UserInteraction u WHERE type = " + UserInteraction.CLICK, Long.class);
   }
 
   @GET @Path("/clicks")
@@ -75,7 +80,7 @@ public class RestResponses {
     try {
       dao.cleanDB();
       httpServletRequest.logout();
-      gameState.setGameStarted(false);
+      gameState.setRunning(false);
       return Response.ok("DB successfully cleaned").build();
     } catch (ServletException e) {
       return Response.serverError().entity("DB successfully cleaned, but error logging out.").build();
@@ -88,14 +93,14 @@ public class RestResponses {
   @GET @Path("/start_the_game")
   @Produces("text/plain")
   public String startGame() {
-    gameState.setGameStarted(true);
+    gameState.setRunning(true);
     return "Spiel gestartet";
   }
 
-  @GET @Path("game_started")
+  @GET @Path("game_running")
   @Produces("text/plain")
-  public boolean isGameStarted() {
-    return gameState.isGameStarted();
+  public boolean isGameRunning() {
+    return gameState.isRunning();
   }
 
   @GET @Path("logout")

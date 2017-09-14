@@ -4,19 +4,19 @@ import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class GameState {
-  protected static final int NUMBER_OF_STEPS = 1024;
+  protected static final int NUMBER_OF_STEPS = 32;
 
-  private boolean gameStarted;
+  private boolean running;
 
   public GameState() {
-    this.gameStarted = false;
+    this.running = false;
   }
 
-  public void setGameStarted(boolean flag) {
-    gameStarted = flag;
+  public void setRunning(boolean flag) {
+    running = flag;
   }
 
-  public boolean isGameStarted() {
-    return gameStarted;
+  public boolean isRunning() {
+    return running;
   }
 }
