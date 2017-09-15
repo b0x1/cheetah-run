@@ -30,34 +30,29 @@ public class CheetahDAO {
   public User signonUser(HttpServletRequest request) throws NotSupportedException, SystemException,
       HeuristicMixedException, HeuristicRollbackException, RollbackException {
 
-    String firstName = request.getParameter("firstName").trim();
-    String lastName = request.getParameter("lastName").trim();
+    String name = request.getParameter("firstName").trim() + " " + request.getParameter("lastName").trim();
     String address = request.getRemoteAddr();
 
-    User user = signonUser(firstName, lastName, null, address);
-
-    return user;
+    return signonUser(name, null, address);
   }
 
-  public User signonUser(String firstName, String lastName, String role, String address) throws NotSupportedException, SystemException,
+  public User signonUser(String name, String role, String address) throws NotSupportedException, SystemException,
       HeuristicMixedException, HeuristicRollbackException, RollbackException {
     if (role == null) role = UserRole.GUEST;
     if (address == null) address = "localhost";
 
-    User user = em.find(User.class, firstName);
+    User user = em.find(User.class, name);
     UserInteraction ui;
 
     if (user == null) {
-      user = new User(firstName, lastName);
+      user = new User(name, "");
       userTransaction.begin();
       em.persist(user);
-      em.persist(new UserRole(firstName, role));
+      em.persist(new UserRole(name, role));
       userTransaction.commit();
       ui = new UserInteraction(user, Calendar.getInstance().getTime(), UserInteraction.SIGNON, address);
-    } else if (user.getPassword().equals(lastName)) {
-      ui = new UserInteraction(user, Calendar.getInstance().getTime(), UserInteraction.LOGIN, address);
     } else {
-      throw new SystemException("Spieler ist mit einem anderen Firmennamen eingeloggt.");
+      ui = new UserInteraction(user, Calendar.getInstance().getTime(), UserInteraction.LOGIN, address);
     }
 
     userTransaction.begin();
@@ -69,7 +64,7 @@ public class CheetahDAO {
 
   public void createAdmin() throws NotSupportedException, SystemException,
       HeuristicMixedException, HeuristicRollbackException, RollbackException {
-    signonUser("Erhard", "Gepardec", UserRole.ADMINISTRATOR, null);
+    signonUser("Erhard Siegl",  UserRole.ADMINISTRATOR, null);
   }
 
 

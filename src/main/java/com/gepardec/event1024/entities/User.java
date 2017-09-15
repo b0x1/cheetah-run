@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlElement;
 import java.util.List;
 
 @Entity(name = "Users")
@@ -24,7 +25,7 @@ public class User {
     this.password = password;
   }
 
-  @JsonIgnore
+  @XmlElement(name = "fullName")
   public String getUsername() {
     return username;
   }
@@ -34,10 +35,6 @@ public class User {
     return password;
   }
 
-
-  public String getFullName() {
-    return this.username + " " + this.password;
-  }
 
   @JsonBackReference
   public List<UserInteraction> getUserInteractions() {

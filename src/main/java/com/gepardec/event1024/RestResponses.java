@@ -58,16 +58,23 @@ public class RestResponses {
 
   @GET @Path("/clicks")
   @Produces("application/json")
-  public List<UserInteraction> getClicks() {
+  public List<UserInteraction> getAllClicks() {
     return dao.getResultList("SELECT u FROM UserInteraction u WHERE type = " + UserInteraction.CLICK,
         UserInteraction.class);
   }
+
+  @GET @Path("/interactions")
+  @Produces("application/json")
+  public List<UserInteraction> getAllUserInteractions() {
+    return dao.getResultList("SELECT u FROM UserInteraction u", UserInteraction.class);
+  }
+
 
   @GET @Path("/click/{number}")
   @Produces("application/json")
   public UserInteraction getClick(@PathParam("number") int number) {
     try {
-      return getClicks().get(number);
+      return getAllClicks().get(number);
     } catch (IndexOutOfBoundsException e) {
       return null;
     }
@@ -79,11 +86,8 @@ public class RestResponses {
   public Response cleanSlate() {
     try {
       dao.cleanDB();
-      httpServletRequest.logout();
       gameState.setRunning(false);
       return Response.ok("DB successfully cleaned").build();
-    } catch (ServletException e) {
-      return Response.serverError().entity("DB successfully cleaned, but error logging out.").build();
     } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException e) {
       return Response.serverError().entity(e.getMessage()).build();
     }
