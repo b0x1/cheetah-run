@@ -117,7 +117,7 @@ function clickAction() {
   $.get("/rest/click/" + processedClick, function(data, status) {
     if (status == "success") {
       cheetah.run();
-      canvas.textBubbles.push(new TextBubble(canvas.ctx, data.user.username + " (" + (processedClick+1) + ")",
+      canvas.textBubbles.push(new TextBubble(canvas.ctx, data.user.fullName + " (" + (processedClick+1) + ")",
         cheetah.posX + cheetah.width / 2, cheetah.posY - 30));
       canvas.draw();
       processedClick += 1;
@@ -125,11 +125,10 @@ function clickAction() {
 
     if (processedClick >= PARAMETERS.maximumSteps) {
       canvas.draw();
-      canvas.showWinScreen(data.user.username);
+      canvas.showWinScreen(data.user.fullName);
     } else {
       setTimeout(clickAction, 80);
     }
-
   });
 }
 

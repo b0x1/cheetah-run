@@ -30,31 +30,31 @@ public class CheetahDAO {
   public User signonUser(HttpServletRequest request) throws NotSupportedException, SystemException,
       HeuristicMixedException, HeuristicRollbackException, RollbackException {
 
-    String userName = request.getParameter("name").trim();
-    String firmaName = request.getParameter("firma").trim();
+    String firstName = request.getParameter("firstName").trim();
+    String lastName = request.getParameter("lastName").trim();
     String address = request.getRemoteAddr();
 
-    User user = signonUser(userName, firmaName, null, address);
+    User user = signonUser(firstName, lastName, null, address);
 
     return user;
   }
 
-  public User signonUser(String userName, String firmaName, String role, String address) throws NotSupportedException, SystemException,
+  public User signonUser(String firstName, String lastName, String role, String address) throws NotSupportedException, SystemException,
       HeuristicMixedException, HeuristicRollbackException, RollbackException {
     if (role == null) role = UserRole.GUEST;
     if (address == null) address = "localhost";
 
-    User user = em.find(User.class, userName);
+    User user = em.find(User.class, firstName);
     UserInteraction ui;
 
     if (user == null) {
-      user = new User(userName, firmaName);
+      user = new User(firstName, lastName);
       userTransaction.begin();
       em.persist(user);
-      em.persist(new UserRole(userName, role));
+      em.persist(new UserRole(firstName, role));
       userTransaction.commit();
       ui = new UserInteraction(user, Calendar.getInstance().getTime(), UserInteraction.SIGNON, address);
-    } else if (user.getPassword().equals(firmaName)) {
+    } else if (user.getPassword().equals(lastName)) {
       ui = new UserInteraction(user, Calendar.getInstance().getTime(), UserInteraction.LOGIN, address);
     } else {
       throw new SystemException("Spieler ist mit einem anderen Firmennamen eingeloggt.");

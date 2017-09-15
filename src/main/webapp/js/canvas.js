@@ -47,7 +47,7 @@ AugmentedCanvas.prototype.draw = function() {
   
   if (this.cheetah.posX < PARAMETERS.constantRun) {
     this.elem.style.backgroundPosition = "0 0";
-  } else if (cheetah.steps <= PARAMETERS.maximumSteps - (PARAMETERS.canvas.width - PARAMETERS.constantRun - cheetah.width) / cheetah.stepSize) {
+  } else if (cheetah.steps <= PARAMETERS.rightMargin + PARAMETERS.maximumSteps - (PARAMETERS.canvas.width - PARAMETERS.constantRun - cheetah.width) / cheetah.stepSize) {
     this.imageX += this.stepSize;
     this.elem.style.backgroundPosition = (-this.imageX) + 'px 0';
   }

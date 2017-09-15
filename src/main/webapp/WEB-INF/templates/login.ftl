@@ -11,8 +11,8 @@
     <strong>${errorTitle}</strong> ${errorMessage}
   </div>
   </#if>
-  <input type="text" name="name" size="35" placeholder="Name"></p>
-  <input type="text" name="firma" size="35" placeholder="Firma"></p>
+  <input type="text" name="firstName" size="35" placeholder="Vorname"></p>
+  <input type="text" name="lastName" size="35" placeholder="Nachname"></p>
   <p><input type="submit" class="btn btn-primary" value="Ahoi!"></p>
 </form>
 </#macro>

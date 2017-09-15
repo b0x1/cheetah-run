@@ -9,9 +9,6 @@
   </script>
 
   <section>
-    <div id="win-screen" style="visibility: hidden;">
-        <img src="images/imgYouWon.jpg" style="visibility: hidden;" />
-    </div>
     <canvas id="cheetah-track">
       Glory to HTML5 Canvas!
     </canvas>

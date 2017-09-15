@@ -24,12 +24,19 @@ public class User {
     this.password = password;
   }
 
+  @JsonIgnore
   public String getUsername() {
     return username;
   }
 
+  @JsonIgnore
   public String getPassword() {
     return password;
+  }
+
+
+  public String getFullName() {
+    return this.username + " " + this.password;
   }
 
   @JsonBackReference
