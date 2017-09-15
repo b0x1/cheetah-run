@@ -4,7 +4,7 @@ import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class GameState {
-  protected static final int NUMBER_OF_STEPS = 32;
+  protected static final int NUMBER_OF_STEPS = 1024;
 
   private boolean running;
 

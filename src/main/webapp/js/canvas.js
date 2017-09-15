@@ -47,7 +47,7 @@ AugmentedCanvas.prototype.draw = function() {
   
   if (this.cheetah.posX < PARAMETERS.constantRun) {
     this.elem.style.backgroundPosition = "0 0";
-  } else if (cheetah.steps <= PARAMETERS.rightMargin + PARAMETERS.maximumSteps - (PARAMETERS.canvas.width - PARAMETERS.constantRun - cheetah.width) / cheetah.stepSize) {
+  } else if (cheetah.steps <= PARAMETERS.maximumSteps - (PARAMETERS.canvas.width - PARAMETERS.constantRun - cheetah.width) / cheetah.stepSize) {
     this.imageX += this.stepSize;
     this.elem.style.backgroundPosition = (-this.imageX) + 'px 0';
   }
@@ -68,10 +68,6 @@ AugmentedCanvas.prototype.draw = function() {
   }
   this.textBubbles = tempBubbles;
   this.ctx.drawImage(this.cheetah.image, this.cheetah.posX, this.cheetah.posY, this.cheetah.width, this.cheetah.height);
-
-  // Movement for the timeline created in game.js
-  var timeline=document.getElementById('timeline')
-  timeline.style.margin="0px 0px 0px "+(-(this.imageX)+(cheetah.width-(cheetah.width%this.stepSize)))+'px'
 };
 
 AugmentedCanvas.prototype.showWinScreen = function(playerName) {
