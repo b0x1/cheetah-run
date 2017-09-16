@@ -12,6 +12,10 @@
 
             <!-- Drop and re-create the database schema on startup -->
             <property name="hibernate.hbm2ddl.auto" value="create" />
+
+            <property name="hibernate.connection.CharSet" value="utf8" />
+            <property name="hibernate.connection.characterEncoding" value="utf8" />
+            <property name="hibernate.connection.useUnicode" value="true" />
         </properties>
     </persistence-unit>
 </persistence>
