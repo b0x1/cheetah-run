@@ -11,7 +11,7 @@
 </#if>
 
 <p class="lead">Hallo ${player}!</p>
-<button id="runButton" type="button" class="btn btn-lg btn-primary" onclick="run_cheetah()" disabled>Lauf, Gepardec, lauf!</button>
+<button id="runButton" type="button" class="btn btn-lg btn-primary" onclick="run_cheetah()" disabled>Lauf, Gepard, lauf!</button>
 <p>Sie haben <span id="clickCounter">${clicks}</span>-mal geklickt.</p>
 
 <script type="application/javascript" src="/js/parameters.js"></script>
