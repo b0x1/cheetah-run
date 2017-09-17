@@ -17,8 +17,7 @@ for (var i = 0; i < 17; i++) {
 }
 
 var pictureData = [
-  ["networkingBalloon.png", 32, 40],
-  ["skystageBalloon.png", 64, 50],
+  ["Sabrina_Jutz_cheetahrun.png", 32, 40],
 ];
 var pictures = [];
 for (var i = 0; i < pictureData.length; i++) {
@@ -26,7 +25,7 @@ for (var i = 0; i < pictureData.length; i++) {
 
   pictureData[i][1] = (pictureData[i][1]);
 }
-pictureData[pictureData.length] = [ document.querySelector("#qrcode img") , -12, 20]; // QRCode
+pictureData[pictureData.length] = [ document.querySelector("#qrcode img") , 0, 20]; // QRCode
 
 
 var canvas;
