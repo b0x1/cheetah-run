@@ -26,7 +26,7 @@ Picture = function(image, dayX, posY, sizeRatio) {
   this.image = image;
   this.sizeRatio = sizeRatio || 0.5;
   this.dayX = dayX || 0;
-  this.posY = posY || 40;
+  this.posY = posY || 0;
   this.resize();
 };
 
