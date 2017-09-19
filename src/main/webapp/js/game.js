@@ -17,22 +17,22 @@ for (var i = 0; i < 17; i++) {
 }
 
 var pictureData = [
-  ["erhard.png", 0 + 30, 0.2],
-  ["herbert.png", 0 + 54, 0.35],
-  ["egor.png", 0 + 70, 0.2, 0.75],
+  ["erhard.png", 0 + 25, 0.2],
+  ["herbert.png", 0 + 47, 0.35],
+  ["egor.png", 0 + 70, 0.18, 0.75],
   ["adrian.png", 274 + 20, 0.5],
-  ["werner.png", 336 + 30, 0.2],
-  ["adam.png", 488 + 6, 0.5],
+  ["werner.png", 336 + 30, 0.2, 0.64],
+  ["adam.png", 488 + 8, 0.48],
   ["gunter.png", 579 - 15, 0.2],
-  ["evelyn.png", 579, 0.18],
-  ["mario_marko.png", 632 + 50, 0.2],
+  ["evelyn.png", 579 + 6, 0.18],
+  ["mario_marko.png", 632 + 57, 0.2],
   ["chris.png", 778 + 30, 0.4, 0.7],
-  ["matthias.png", 778 + 30, 0.1, 0.7],
-  ["sabrina.png", 794 + 30, 0.3, 0.52],
+  ["matthias.png", 778 + 41, 0.1, 0.7],
+  ["sabrina.png", 794 + 30, 0.25, 0.52],
   ["klemens.png", 856 + 20, 0.2, 0.55],
-  ["boyang.png", 856 + 75, 0.2, 0.75],
-  ["erich.png", 884 + 75, 0.18],
-  ["christoph.png", 958 + 50, 0.2, 0.7]
+  ["boyang.png", 856 + 81, 0.2, 0.75],
+  ["erich.png", 884 + 85, 0.18],
+  ["christoph.png", 958 + 40, 0.18, 0.7]
 ];
 
 [
