@@ -17,10 +17,39 @@ for (var i = 0; i < 17; i++) {
 }
 
 var pictureData = [
-  ["erhard.png", 64, 0.26],
-  ["gunter.png", 32, 0.26],
-  ["erich.png", 256, 0.18],
-  ["sabrina.png", 128, 0.22],
+  ["erhard.png", 0 + 10, 0.26],
+  ["herbert.png", 0 + 20, 0.45],
+  ["adrian.png", 274, 0.5],
+  ["werner.png", 336, 0.2],
+  ["adam.png", 488, 0.5],
+  ["gunter.png", 579, 0.2],
+  ["evelyn.png", 579 + 10, 0.2],
+  ["mario_marko.png", 632, 0.2],
+  ["chris.png", 778, 0.5],
+  ["sabrina.png", 794, 0.3],
+  ["klemens.png", 856, 0.2],
+  ["boyang.png", 856 + 10, 0.2],
+  ["erich.png", 884 + 10, 0.18], // +10 to avoid trees
+];
+
+[
+  ["erhard.png", 0],
+  ["herbert.png", 0],
+  ["egor.png", 0],
+  ["adrian.png", 274],
+  ["werner.png", 336],
+  ["adam.png", 488],
+  ["gunter.png", 579],
+  ["evelyn.png", 579],
+  ["marko.png", 603],
+  ["mario.png", 666],
+  ["chris.png", 778],
+  ["matthias.png", 778],
+  ["sabrina.png", 794],
+  ["klemens.png", 856],
+  ["boyang.png", 856],
+  ["erich.png", 884]
+  ["ruhsam.png", 958]
 ];
 var pictures = [];
 for (var i = 0; i < pictureData.length; i++) {

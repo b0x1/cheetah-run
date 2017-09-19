@@ -44,7 +44,11 @@ public class RestResponses {
             Calendar.getInstance().getTime(),
             UserInteraction.CLICK,
             httpServletRequest.getRemoteAddr());
-        dao.persist(ui);
+        try {
+          dao.persist(ui);
+        } catch (SystemException | NotSupportedException | HeuristicRollbackException | HeuristicMixedException | RollbackException  e) {
+          return Response.serverError().entity(e.getMessage()).build();
+        }
         if (getNumberOfClicks() >= GameState.NUMBER_OF_STEPS) gameState.setState(GameState.FINISHED);
         return Response.ok(player.getNumberOfClicks() + 1).build();
       } else {

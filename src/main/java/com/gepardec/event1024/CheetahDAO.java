@@ -62,9 +62,9 @@ public class CheetahDAO {
     return user;
   }
 
-  public void createAdmin() throws NotSupportedException, SystemException,
+  public User createAdmin() throws NotSupportedException, SystemException,
       HeuristicMixedException, HeuristicRollbackException, RollbackException {
-    signonUser("Erhard Siegl",  UserRole.ADMINISTRATOR, null);
+    return signonUser("Erhard Siegl",  UserRole.ADMINISTRATOR, null);
   }
 
 
@@ -78,14 +78,10 @@ public class CheetahDAO {
     return query.getSingleResult();
   }
 
-  public void persist(Object o) {
-    try {
-      userTransaction.begin();
-      em.persist(o);
-      userTransaction.commit();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+  public void persist(Object o) throws SystemException, NotSupportedException, HeuristicRollbackException, HeuristicMixedException, RollbackException {
+    userTransaction.begin();
+    em.persist(o);
+    userTransaction.commit();
   }
 
   public void executeQueries(String[] queries) throws NotSupportedException, SystemException,
