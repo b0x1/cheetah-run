@@ -21,7 +21,7 @@ var pictureData = [
   ["herbert.png", 0 + 54, 0.35],
   ["egor.png", 0 + 70, 0.2, 0.75],
   ["adrian.png", 274 + 20, 0.5],
-  ["werner.png", 336 + 29, 0.2],
+  ["werner.png", 336 + 30, 0.2],
   ["adam.png", 488 + 6, 0.5],
   ["gunter.png", 579 - 15, 0.2],
   ["evelyn.png", 579, 0.18],
