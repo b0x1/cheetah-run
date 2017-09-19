@@ -1,14 +1,12 @@
 <#include "base.ftl">
 
 <#macro page_main>
-<#if !gameIsRunning>
-<div id="alertBox" class="alert alert-info alert-dismissible" role="alert">
+<div id="alertBox" class="alert alert-info alert-dismissible fade" role="alert">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
   <strong>Info</strong> <span id="info-text">Warten Sie bitte auf den Spielstart!</span>
 </div>
-</#if>
 
 <p class="lead">Hallo ${player}!</p>
 <button id="runButton" type="button" class="btn btn-lg btn-primary" onclick="run_cheetah()" disabled>Lauf, Gepard, lauf!</button>
@@ -26,25 +24,29 @@
         }
         if (status == "nocontent" || data >= PARAMETERS.maximumSteps) {
           $("#info-text").text("Das Spiel ist zu Ende!");
-          $("#alertBox").show();
+          $("#alertBox").removeClass("fade");
           $("#runButton").attr("disabled", true);
         }
       });
     }
 
-    function waitForStart() {
-      $.get("/rest/game_running", function(data) {
-        if (data == "true") {
+    function loadUI() {
+      $.get("/rest/game_state", function(data) {
+        if (data == 1) {
           $("#runButton").removeAttr("disabled");
           $("#info-text").text("Spiel gestartet!");
-          $('#alertBox').fadeOut(1000);
+          $("#alertBox").addClass("fade");
+        } else if (data == 2) {
+          $("#info-text").text("Das Spiel ist zu Ende!");
+          $("#alertBox").removeClass("fade");
         } else {
-          setTimeout(waitForStart, 80);
+          $("#alertBox").removeClass("fade");
+          setTimeout(loadUI, 50);
         }
       });
     }
 
-    waitForStart();
+    loadUI();
 </script>
 
 
