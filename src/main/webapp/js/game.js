@@ -19,6 +19,7 @@ for (var i = 0; i < 17; i++) {
 var pictureData = [
   ["erhard.png", 0 + 10, 0.26],
   ["herbert.png", 0 + 20, 0.45],
+  ["egor.png", 0 + 30, 0.2],
   ["adrian.png", 274, 0.5],
   ["werner.png", 336, 0.2],
   ["adam.png", 488, 0.5],
@@ -26,10 +27,12 @@ var pictureData = [
   ["evelyn.png", 579 + 10, 0.2],
   ["mario_marko.png", 632, 0.2],
   ["chris.png", 778, 0.5],
+  ["matthias.png", 778, 0.2],
   ["sabrina.png", 794, 0.3],
   ["klemens.png", 856, 0.2],
   ["boyang.png", 856 + 10, 0.2],
-  ["erich.png", 884 + 10, 0.18], // +10 to avoid trees
+  ["erich.png", 884, 0.18],
+  ["christoph.png", 958, 0.2]
 ];
 
 [
