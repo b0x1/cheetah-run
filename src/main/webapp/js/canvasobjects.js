@@ -1,6 +1,6 @@
 TextBubble = function(ctx, text, posX, posY, isPermanent) {
   this.ctx = ctx;
-  this.ctx.font = "30pt Arial";
+  this.ctx.font = "40pt Arial";
   this.ctx.fillStyle = "black";
   this.posX = posX || 0;
   this.posY = posY || 0;
@@ -12,9 +12,10 @@ TextBubble = function(ctx, text, posX, posY, isPermanent) {
 TextBubble.prototype = {
   constructor: TextBubble,
   
-  bubble: function() {
+  bubble: function(offset) {
     this.ctx.fillStyle = "rgba(0, 0, 0, " + this.opacity + ")";
     this.ctx.textAlign="center";
+    this.posX -= offset;
     this.ctx.fillText(this.text, this.posX, this.posY);
 
     this.opacity -= 0.1;

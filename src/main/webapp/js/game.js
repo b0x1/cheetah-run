@@ -17,22 +17,22 @@ for (var i = 0; i < 17; i++) {
 }
 
 var pictureData = [
-  ["erhard.png", 0 + 10, 0.26],
-  ["herbert.png", 0 + 20, 0.45],
-  ["egor.png", 0 + 30, 0.2],
-  ["adrian.png", 274, 0.5],
-  ["werner.png", 336, 0.2],
-  ["adam.png", 488, 0.5],
-  ["gunter.png", 579, 0.2],
-  ["evelyn.png", 579 + 10, 0.2],
-  ["mario_marko.png", 632, 0.2],
-  ["chris.png", 778, 0.5],
-  ["matthias.png", 778, 0.2],
-  ["sabrina.png", 794, 0.3],
-  ["klemens.png", 856, 0.2],
-  ["boyang.png", 856 + 10, 0.2],
-  ["erich.png", 884, 0.18],
-  ["christoph.png", 958, 0.2]
+  ["erhard.png", 0 + 30, 0.2],
+  ["herbert.png", 0 + 54, 0.35],
+  ["egor.png", 0 + 70, 0.2, 0.75],
+  ["adrian.png", 274 + 20, 0.5],
+  ["werner.png", 336 + 29, 0.2],
+  ["adam.png", 488 + 6, 0.5],
+  ["gunter.png", 579 - 15, 0.2],
+  ["evelyn.png", 579, 0.18],
+  ["mario_marko.png", 632 + 50, 0.2],
+  ["chris.png", 778 + 30, 0.4, 0.7],
+  ["matthias.png", 778 + 30, 0.1, 0.7],
+  ["sabrina.png", 794 + 30, 0.3, 0.52],
+  ["klemens.png", 856 + 20, 0.2, 0.55],
+  ["boyang.png", 856 + 75, 0.2, 0.75],
+  ["erich.png", 884 + 75, 0.18],
+  ["christoph.png", 958 + 50, 0.2, 0.7]
 ];
 
 [
@@ -60,7 +60,7 @@ for (var i = 0; i < pictureData.length; i++) {
 
   pictureData[i][1] = (pictureData[i][1]);
 }
-pictureData[pictureData.length] = [ document.querySelector("#qrcode img") , 0, 0.4, 0.5]; // QRCode
+pictureData[pictureData.length] = [ document.querySelector("#qrcode img") , -2, 0.4, 0.5]; // QRCode
 
 
 var canvas;
