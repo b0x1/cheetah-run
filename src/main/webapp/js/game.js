@@ -17,10 +17,10 @@ for (var i = 0; i < 17; i++) {
 }
 
 var pictureData = [
-  ["erhard.png", 32, 0.5],
-  ["gunter.png", 64, 0.45],
-  ["erich.png", 128, 0.5],
-  ["sabrina.png", 256, 0.5],
+  ["erhard.png", 64, 0.26],
+  ["gunter.png", 32, 0.26],
+  ["erich.png", 256, 0.18],
+  ["sabrina.png", 128, 0.22],
 ];
 var pictures = [];
 for (var i = 0; i < pictureData.length; i++) {
@@ -28,7 +28,7 @@ for (var i = 0; i < pictureData.length; i++) {
 
   pictureData[i][1] = (pictureData[i][1]);
 }
-pictureData[pictureData.length] = [ document.querySelector("#qrcode img") , 0, 0.1]; // QRCode
+pictureData[pictureData.length] = [ document.querySelector("#qrcode img") , 0, 0.4, 0.5]; // QRCode
 
 
 var canvas;

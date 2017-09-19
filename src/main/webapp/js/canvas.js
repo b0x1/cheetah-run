@@ -55,7 +55,9 @@ AugmentedCanvas.prototype.draw = function() {
   for (var i = 0; i < this.pictures.length; i++) {
     var p = this.pictures[i];
     if (p.dayX * this.stepSize + cheetah.width  < this.imageX + this.width) {
-      this.ctx.drawImage(p.image, p.dayX * this.stepSize + cheetah.width - p.width - this.imageX, p.posY * this.height, p.width, p.height);
+      this.ctx.drawImage(p.image,
+        p.dayX * this.stepSize + cheetah.width - p.width - this.imageX, this.height * (1 - p.posY) - p.height,
+        p.width, p.height);
     }
   }
 

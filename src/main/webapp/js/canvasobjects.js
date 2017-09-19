@@ -24,15 +24,14 @@ TextBubble.prototype = {
 
 Picture = function(image, dayX, posY, sizeRatio) {
   this.image = image;
-  this.sizeRatio = sizeRatio || 0.5;
+  this.sizeRatio = sizeRatio || 0.6;
   this.dayX = dayX || 0;
-  this.posY = posY || 0;
+  this.posY = posY || 0; // Ratio from ground up
   this.resize();
 };
 
 Picture.prototype = {
   constructor: Picture,
-
   resize: function() {
     if (PARAMETERS.canvas.height < PARAMETERS.canvas.width) {
       this.height = PARAMETERS.canvas.height * this.sizeRatio;
