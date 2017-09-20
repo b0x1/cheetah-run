@@ -43,9 +43,10 @@ AugmentedCanvas = function(canvasElement, bgImage, cheetah, pictures) {
 AugmentedCanvas.prototype = Object.create(Canvas.prototype);
 AugmentedCanvas.prototype.constructor = AugmentedCanvas;
 AugmentedCanvas.prototype.draw = function() {
+
   var textOffset = 0;
   this.ctx.clearRect(0, 0, this.width, this.height); // Clear Canvas
-  
+
   if (this.cheetah.posX < PARAMETERS.constantRun) {
     this.elem.style.backgroundPosition = "0 0";
   } else if (cheetah.steps <= PARAMETERS.maximumSteps - (PARAMETERS.canvas.width - PARAMETERS.constantRun - cheetah.width) / cheetah.stepSize) {
@@ -71,6 +72,7 @@ AugmentedCanvas.prototype.draw = function() {
     }
   }
   this.textBubbles = tempBubbles;
+
   this.ctx.drawImage(this.cheetah.image, this.cheetah.posX, this.cheetah.posY, this.cheetah.width, this.cheetah.height);
 };
 

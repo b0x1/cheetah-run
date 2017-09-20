@@ -68,7 +68,8 @@ for (var i = 0; i < pictureData.length; i++) {
 
   pictureData[i][1] = (pictureData[i][1]);
 }
-pictureData[pictureData.length] = [ document.querySelector("#qrcode img") , -2, 0.4, 0.5]; // QRCode
+
+pictureData[pictureData.length] = [document.querySelector("#qrcode img") , -2, 0.4, 0.5]; // QRCode
 
 
 var canvas;
@@ -82,6 +83,8 @@ window.onload = function() {
   }
   canvas = new AugmentedCanvas("cheetah-track", canvasBgImage, cheetah, pictures);
 
+  canvas.textBubbles.push(new TextBubble(canvas.ctx, "http://tinyurl.com/gepardec-run",
+                                          (cheetah.width)/2 + 17, canvas.height*0.08, true, "30pt Arial"));
   canvas.draw();
   clickAction();
 };

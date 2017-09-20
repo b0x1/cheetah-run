@@ -1,11 +1,10 @@
-TextBubble = function(ctx, text, posX, posY, isPermanent) {
+TextBubble = function(ctx, text, posX, posY, isFixed, font) {
   this.ctx = ctx;
-  this.ctx.font = "40pt Arial";
-  this.ctx.fillStyle = "black";
+  this.font = font || "40pt Arial";
   this.posX = posX || 0;
   this.posY = posY || 0;
   this.text = text || "";
-  this.isPermanent = isPermanent || false;
+  this.isFixed = isFixed || false;
   this.opacity = 1;
 }
 
@@ -13,13 +12,18 @@ TextBubble.prototype = {
   constructor: TextBubble,
   
   bubble: function(offset) {
+    offset = offset || 0;
     this.ctx.fillStyle = "rgba(0, 0, 0, " + this.opacity + ")";
     this.ctx.textAlign="center";
+    this.ctx.font = this.font;
     this.posX -= offset;
     this.ctx.fillText(this.text, this.posX, this.posY);
 
     this.opacity -= 0.1;
-    this.posY -= 40;
+
+    if (!this.isFixed) {
+      this.posY -= 40;
+    }
   }
 };
 

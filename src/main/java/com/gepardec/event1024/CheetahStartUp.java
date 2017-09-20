@@ -21,7 +21,7 @@ public class CheetahStartUp implements ServletContextListener {
   public void contextInitialized(ServletContextEvent servletContextEvent) {
     try {
       admin = dao.createAdmin();
-      testRun();
+//      testRun();
     } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException e) {
       e.printStackTrace();
     }
