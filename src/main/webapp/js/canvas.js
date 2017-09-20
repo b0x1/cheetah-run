@@ -85,7 +85,7 @@ AugmentedCanvas.prototype.showWinScreen = function(playerName) {
   this.ctx.textBaseline = "middle";
   this.ctx.fillStyle = "#000000";
   this.ctx.fillText(playerName, this.width / 2, this.height / 2 - 35);
-  this.ctx.fillText("håt a neichs iPad!", this.width / 2,this.height / 2 + 35);
+  this.ctx.fillText("hat ein neues iPad!", this.width / 2,this.height / 2 + 35);
 
 };
 

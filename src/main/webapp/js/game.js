@@ -32,7 +32,8 @@ var pictureData = [
   ["klemens.png", 856 + 35, 0.2, 0.55],
   ["boyang.png", 856 + 97, 0.22, 0.75],
   ["erich.png", 884 + 102, 0.18],
-  ["christoph.png", 958 + 57, 0.15, 0.7]
+  ["christoph.png", 958 + 57, 0.15, 0.7],
+  ["thomas.png", 1024 + 6, 0.15, 0.7],
 ];
 
 /*
