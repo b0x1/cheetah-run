@@ -35,6 +35,12 @@ var pictureData = [
   ["christoph.png", 958 + 57, 0.15, 0.7]
 ];
 
+/*
+for (var i = 0; i < pictureData.length; i++) {
+  var p = pictureData[i];
+  console.log(p[0].charAt(0).toUpperCase() + p[0].split(".")[0].slice(1) + ": " + p[1]);
+}
+
 [
   ["erhard.png", 0],
   ["herbert.png", 0],
@@ -54,6 +60,8 @@ var pictureData = [
   ["erich.png", 884]
   ["ruhsam.png", 958]
 ];
+*/
+
 var pictures = [];
 for (var i = 0; i < pictureData.length; i++) {
   pictureData[i][0] = getImage(imagePrefix + pictureData[i][0]);
