@@ -7,12 +7,12 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
 import java.util.List;
 
-@Entity(name = "Users")
+@Entity
 public class User {
-  @Id @Column(name="username")
+  @Id
   private String username;
 
-  @Column(name="passwd")
+  @Column
   private String password;
 
   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")

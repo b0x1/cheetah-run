@@ -1,0 +1,20 @@
+swarm:
+  security:
+    security-domains:
+      custom-security:
+        classic-authentication:
+          login-modules:
+            Database:
+              code: Database
+              flag: required
+              module-options:
+                dsJndiName: java:jboss/datasources/LocalDS
+                principalsQuery: SELECT password FROM User WHERE name=?
+                rolesQuery: SELECT role, 'Roles' FROM UserRole WHERE name=?
+  datasources:
+    data-sources:
+      LocalDS:
+        driver-name: h2
+        connection-url: jdbc:h2:~/Desktop/local
+        user-name: sa
+        password: sa

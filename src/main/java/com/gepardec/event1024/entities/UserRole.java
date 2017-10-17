@@ -4,16 +4,16 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity(name = "UserRoles")
+@Entity
 public class UserRole {
   public static final String GUEST = "Guest";
   public static final String ADMINISTRATOR = "Administrator";
 
   @Id
-  @Column(name = "username")
+  @Column
   private String username;
 
-  @Column(name="userRoles")
+  @Column
   private String userRoles;
 
   public UserRole(String username, String userRoles) {
