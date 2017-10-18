@@ -96,7 +96,7 @@ public class CheetahDAO {
 
   public void cleanDB() throws NotSupportedException, SystemException,
       RollbackException, HeuristicMixedException, HeuristicRollbackException {
-    executeQueries(new String[]{"DELETE FROM UserInteraction", "DELETE FROM UserRoles", "DELETE FROM Users"} );
+    executeQueries(new String[]{"DELETE FROM UserInteraction", "DELETE FROM UserRole", "DELETE FROM User"} );
     createAdmin();
   }
 }

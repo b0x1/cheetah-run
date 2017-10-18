@@ -31,12 +31,13 @@ public class CheetahServlet extends HttpServlet {
         request.setAttribute("errorMessage", e.getMessage());
         response.setStatus(500);
         request.getRequestDispatcher("WEB-INF/templates/login.ftl").forward(request, response);
+        e.printStackTrace();
       } catch (HeuristicMixedException | HeuristicRollbackException | RollbackException | NotSupportedException | SystemException e) {
         request.setAttribute("errorTitle", "Login-Fehler.");
         request.setAttribute("errorMessage", e.getMessage());
         response.setStatus(500);
         request.getRequestDispatcher("WEB-INF/templates/login.ftl").forward(request, response);
-        System.out.println(e.getMessage());
+        e.printStackTrace();
       }
     } else {
       forwardToUI(request, response, p);

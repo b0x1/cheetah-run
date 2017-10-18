@@ -1,4 +1,10 @@
 swarm:
+  deployment:
+      cheetah-run.war:
+        web:
+          login-config:
+            auth-method: BASIC
+            security-domain: custom-security
   security:
     security-domains:
       custom-security:
@@ -9,8 +15,8 @@ swarm:
               flag: required
               module-options:
                 dsJndiName: java:jboss/datasources/LocalDS
-                principalsQuery: SELECT password FROM User WHERE name=?
-                rolesQuery: SELECT role, 'Roles' FROM UserRole WHERE name=?
+                principalsQuery: SELECT password FROM User WHERE username=?
+                rolesQuery: SELECT userRoles, 'Roles' FROM UserRole WHERE username=?
   datasources:
     data-sources:
       LocalDS:

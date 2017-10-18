@@ -31,7 +31,7 @@ public class RestResponses {
   @GET @Path("/players")
   @Produces("application/json")
   public List<User> getAllUsers() {
-    return dao.getResultList("SELECT u FROM Users u", User.class);
+    return dao.getResultList("SELECT u FROM User u", User.class);
   }
 
   @POST @Path("/click")
