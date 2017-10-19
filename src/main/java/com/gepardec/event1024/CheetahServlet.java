@@ -59,7 +59,6 @@ public class CheetahServlet extends HttpServlet {
   }
 
   private void forwardToUI(HttpServletRequest request, HttpServletResponse response, User player)  throws ServletException, IOException {
-    request.setAttribute("gameIsRunning", gameState.isRunning());
     request.setAttribute("player", player.getUsername());
     request.setAttribute("clicks", player.getNumberOfClicks());
     request.getRequestDispatcher("WEB-INF/templates/ui.ftl").forward(request, response); 

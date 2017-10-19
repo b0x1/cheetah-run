@@ -38,18 +38,24 @@ public class RestResponses {
   @Produces("text/plain")
   public Response doClick() {
     User player = dao.find(User.class, httpServletRequest.getUserPrincipal().getName());
-    if (player != null && getNumberOfClicks() < GameState.NUMBER_OF_STEPS) {
+    if (player != null) {
+      if (getNumberOfClicks() < GameState.NUMBER_OF_STEPS) {
         UserInteraction ui = new UserInteraction(player,
             Calendar.getInstance().getTime(),
             UserInteraction.CLICK,
             httpServletRequest.getRemoteAddr());
-        dao.persist(ui);
-        if (getNumberOfClicks() >= GameState.NUMBER_OF_STEPS) gameState.setRunning(false);
+        try {
+          dao.persist(ui);
+        } catch (SystemException | NotSupportedException | HeuristicRollbackException | HeuristicMixedException | RollbackException  e) {
+          return Response.serverError().entity(e.getMessage()).build();
+        }
+        if (getNumberOfClicks() >= GameState.NUMBER_OF_STEPS) gameState.setState(GameState.FINISHED);
         return Response.ok(player.getNumberOfClicks() + 1).build();
-    } else {
-      gameState.setRunning(false);
-      return Response.noContent().build();
-    }
+      } else {
+        gameState.setState(GameState.FINISHED);
+        return Response.noContent().build();
+      }
+    } else return Response.noContent().build();
   }
 
   private long getNumberOfClicks() {
@@ -86,7 +92,7 @@ public class RestResponses {
   public Response cleanSlate() {
     try {
       dao.cleanDB();
-      gameState.setRunning(false);
+      gameState.setState(GameState.PREPARE);
       return Response.ok("DB successfully cleaned").build();
     } catch (NotSupportedException | SystemException | RollbackException | HeuristicMixedException | HeuristicRollbackException e) {
       return Response.serverError().entity(e.getMessage()).build();
@@ -97,14 +103,14 @@ public class RestResponses {
   @GET @Path("/start_the_game")
   @Produces("text/plain")
   public String startGame() {
-    gameState.setRunning(true);
+    gameState.setState(GameState.RUNNING);
     return "Spiel gestartet";
   }
 
-  @GET @Path("game_running")
+  @GET @Path("game_state")
   @Produces("text/plain")
-  public boolean isGameRunning() {
-    return gameState.isRunning();
+  public int getGameState() {
+    return gameState.getState();
   }
 
   @GET @Path("logout")

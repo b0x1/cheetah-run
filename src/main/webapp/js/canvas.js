@@ -43,30 +43,36 @@ AugmentedCanvas = function(canvasElement, bgImage, cheetah, pictures) {
 AugmentedCanvas.prototype = Object.create(Canvas.prototype);
 AugmentedCanvas.prototype.constructor = AugmentedCanvas;
 AugmentedCanvas.prototype.draw = function() {
+
+  var textOffset = 0;
   this.ctx.clearRect(0, 0, this.width, this.height); // Clear Canvas
-  
+
   if (this.cheetah.posX < PARAMETERS.constantRun) {
     this.elem.style.backgroundPosition = "0 0";
   } else if (cheetah.steps <= PARAMETERS.maximumSteps - (PARAMETERS.canvas.width - PARAMETERS.constantRun - cheetah.width) / cheetah.stepSize) {
     this.imageX += this.stepSize;
+    textOffset = this.stepSize;
     this.elem.style.backgroundPosition = (-this.imageX) + 'px 0';
   }
 
   for (var i = 0; i < this.pictures.length; i++) {
     var p = this.pictures[i];
-    if (p.dayX * this.stepSize + cheetah.width  < this.imageX + this.width) {
-      this.ctx.drawImage(p.image, p.dayX * this.stepSize + cheetah.width - this.imageX, p.posY, p.width, p.height);
+    if (p.dayX * this.stepSize  < this.imageX + this.width) {
+      this.ctx.drawImage(p.image,
+        p.dayX * this.stepSize + cheetah.width - p.width - this.imageX, this.height * (1 - p.posY) - p.height,
+        p.width, p.height);
     }
   }
 
   var tempBubbles = [];
   for (var i = 0; i < this.textBubbles.length; i++) {
-    this.textBubbles[i].bubble();
+    this.textBubbles[i].bubble(textOffset);
     if (this.textBubbles[i].opacity > 0) {
       tempBubbles.push(this.textBubbles[i]);
     }
   }
   this.textBubbles = tempBubbles;
+
   this.ctx.drawImage(this.cheetah.image, this.cheetah.posX, this.cheetah.posY, this.cheetah.width, this.cheetah.height);
 };
 
@@ -78,7 +84,9 @@ AugmentedCanvas.prototype.showWinScreen = function(playerName) {
   this.ctx.textAlign="center";
   this.ctx.textBaseline = "middle";
   this.ctx.fillStyle = "#000000";
-  this.ctx.fillText(playerName + " håt a neichs iPad!", this.width / 2,this.height / 2);
+  this.ctx.fillText(playerName, this.width / 2, this.height / 2 - 35);
+  this.ctx.fillText("hat ein neues iPad!", this.width / 2,this.height / 2 + 35);
+
 };
 
 

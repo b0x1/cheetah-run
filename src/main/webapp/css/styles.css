@@ -1,3 +1,11 @@
-body {
+/* body {
   margin-top: 20px;
-}
+} */
+
+.fade {
+   opacity: 0;
+   -webkit-transition: opacity 2s linear;
+      -moz-transition: opacity 2s linear;
+       -ms-transition: opacity 2s linear;
+        -o-transition: opacity 2s linear;
+           transition: opacity 2s linear;
