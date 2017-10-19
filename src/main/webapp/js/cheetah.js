@@ -14,7 +14,7 @@ Cheetah.prototype = {
   constructor: Cheetah,
   resize: function() {
     if (PARAMETERS.canvas.height < PARAMETERS.canvas.width) {
-      this.height = PARAMETERS.canvas.height * 0.3;;
+      this.height = PARAMETERS.canvas.height * 0.9;;
       this.width = this.image.width / this.image.height * this.height;
     } else {
       this.width = this.image.width < PARAMETERS.canvas.width ? this.image.width : PARAMETERS.canvas.width;

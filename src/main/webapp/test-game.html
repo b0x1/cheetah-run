@@ -36,26 +36,8 @@
   <script type="text/javascript" src="js/parameters.js"></script>
   <script type="text/javascript" src="js/canvas.js"></script>
   <script type="text/javascript" src="js/cheetah.js"></script>
-  <!--<script type="text/javascript" src="js/animate.js"></script>-->
   <script type="text/javascript" src="js/canvasobjects.js"></script>
-  <script type="text/javascript" src="js/game.js"></script>
-  <script type="text/javascript">
-   // Test code
-   window.onkeypress = function(evt) {
-     cheetah.run();
-           canvas.textBubbles.push(new TextBubble(canvas.ctx, evt.key + " (" + (processedClick+1) + ")",
-        cheetah.posX + cheetah.width / 2, cheetah.posY - 30));
-     processedClick += 1;
-     if (processedClick >= PARAMETERS.maximumSteps) {
-      canvas.draw();
-      canvas.showWinScreen(evt.key);
-      window.onkeypress = undefined;
-     } else {
-       canvas.draw();
-     }
-   };
-
-  </script>
+  <script type="text/javascript" src="js/animate.js"></script>
 </section>
 
 </body>
