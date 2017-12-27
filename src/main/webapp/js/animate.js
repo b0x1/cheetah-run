@@ -37,9 +37,6 @@ window.onresize = function()  {
   PARAMETERS = getParameters();
   cheetah.resize();
   canvas.resize();
-  for (var i = 0; i < balloons.length; i++) {
-    balloons[i].resize();
-  }
 };
 
 var stopGame = function() {
